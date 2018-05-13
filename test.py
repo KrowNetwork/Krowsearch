@@ -6,9 +6,9 @@ dictionary = corpora.Dictionary.load('test.dict')
 corpus = corpora.MmCorpus('test.mm') # comes from the first tutorial, "From strings to vectors"
 print(corpus)
 
-# lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=10)
-lsi = models.LdaModel(corpus, id2word=dictionary, num_topics=120)
-doc = "computer science"
+lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=120)
+# lsi = models.LdaModel(corpus, id2word=dictionary, num_topics=120)
+doc = "software developer"
 vec_bow = dictionary.doc2bow(doc.lower().split())
 vec_lsi = lsi[vec_bow]
 

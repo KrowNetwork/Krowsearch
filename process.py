@@ -9,14 +9,11 @@ documents = df['description']
 titles = df['title']
 companies = list(df['company'].values)
 stoplist = set('for a of the and to in at •'.split())
-texts = [[word for word in document.lower().split() if word not in stoplist]
-         for document in documents]
+texts = [[word for word in str(document).lower().split() if word not in stoplist] for document in documents]
 
-titles_ = [[word for word in title.lower().split() if word not in stoplist]
-         for title in titles]
+titles_ = [[word for word in str(title).lower().split() if word not in stoplist] for title in titles]
 
-comapnies_ = [[word for word in company.lower().split() if word not in stoplist]
-         for company in companies]
+comapnies_ = [[word for word in str(company).lower().split() if word not in stoplist] for company in companies]
 
 titles = titles_
 companies = comapnies_
