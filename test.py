@@ -8,7 +8,7 @@ print(corpus)
 
 lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=120)
 # lsi = models.LdaModel(corpus, id2word=dictionary, num_topics=120)
-doc = "software developer"
+doc = "developer"
 vec_bow = dictionary.doc2bow(doc.lower().split())
 vec_lsi = lsi[vec_bow]
 
@@ -16,7 +16,7 @@ index = similarities.MatrixSimilarity(lsi[corpus])
 
 sims = index[vec_lsi]
 sims = sorted(enumerate(sims), key=lambda item: -item[1])
-print (sims)
+# print (sims)
 
 import pandas as pd
 import numpy as np

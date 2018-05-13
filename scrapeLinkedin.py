@@ -4,14 +4,16 @@ import time
 import pandas as pd
 
 page_start = 0
-pages = 2
+pages = 5
 
-terms = ["software developer", "mechanical engineer"]
+terms = ["software developer", "mechanical engineer", "marketing", "business", "financial analyst", "insurance", "engineer", "machine learning", "Google"]
 # initialize Selenium Web Driver
 
 titles = []
 companies = []
 descriptions = []
+data = pd.read_csv('data.csv')
+
 for term in terms:
     num_start = 6 * page_start
 
@@ -29,7 +31,12 @@ for term in terms:
 
     time.sleep(5)
 
-    driver.find_element_by_xpath('//*[@id="jobs-nav-item"]/a/span[2]').click()
+    try:
+        driver.find_element_by_xpath('//*[@id="jobs-nav-item"]/a/span[2]').click()
+    except:
+        _ = input("Press any key after proving youre not a robot to linkedin")
+        driver.find_element_by_xpath('//*[@id="jobs-nav-item"]/a/span[2]').click()
+
 
     driver.find_element_by_xpath('//*[starts-with(@id, "jobs-search-box-keyword")]').send_keys(term)
     driver.find_element_by_xpath('//*[starts-with(@id, "jobs-search-box-keyword")]').send_keys(Keys.ENTER)
@@ -51,6 +58,9 @@ for term in terms:
 
 
     count = 1
+    titles = []
+    companies = []
+    descriptions = []
     for i in list_jobs:
         driver.get(i)
         print (count)
@@ -72,6 +82,13 @@ for term in terms:
                 print ([len(titles), len(companies), len(descriptions)])
             print ("Failed")
             continue
+
+    d2 = pd.DataFrame({
+        "company": companies,
+        "title": titles,
+        "description": descriptions
+    })
+    data.append(d2, ignore_index = True)
 
     driver.quit()
 

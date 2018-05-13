@@ -5,6 +5,8 @@ from gensim import similarities, corpora
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 df = pd.read_csv('data.csv')
+df.drop_duplicates()
+np.random.shuffle(df.values)
 documents = df['description']
 titles = df['title']
 companies = list(df['company'].values)
