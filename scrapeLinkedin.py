@@ -97,11 +97,7 @@ for term in terms:
     data.to_csv('data.csv')
     driver.quit()
 
-data = pd.DataFrame({
-    "company": companies,
-    "title": titles,
-    "description": descriptions
-})
+
 data.to_csv('data.csv')
 # for index in driver.find_element_by_css_selector(".card-list.card-list--column.jobs-search-results__list"):
 #     print (index)
