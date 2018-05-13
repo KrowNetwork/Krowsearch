@@ -12,8 +12,12 @@ terms = ["software developer", "mechanical engineer", "marketing", "business", "
 titles = []
 companies = []
 descriptions = []
-data = pd.read_csv('data.csv')
-
+# data = pd.read_csv('data.csv')
+data = pd.DataFrame({
+    "company": companies,
+    "title": titles,
+    "description": descriptions
+})
 for term in terms:
     num_start = 6 * page_start
 
@@ -69,7 +73,8 @@ for term in terms:
         try:
             titles.append(driver.find_element_by_xpath('//div[@class="ember-view"]/div[5]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/h1').text)
             companies.append(driver.find_element_by_xpath('//div[@class="ember-view"]/div[5]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/h3/a').text)
-            descriptions.append(driver.find_element_by_xpath('//*[@id="company-description-text"]').text)
+            driver.find_element_by_xpath('//*[@aria-controls="job-details"]').click()
+            descriptions.append(driver.find_element_by_xpath('//*[@id="job-details"]').text)
         except:
             print ([len(titles), len(companies), len(descriptions)])
             if len(titles) != len(companies) or len(companies) != len(descriptions):
@@ -89,7 +94,7 @@ for term in terms:
         "description": descriptions
     })
     data.append(d2, ignore_index = True)
-
+    data.to_csv('data.csv')
     driver.quit()
 
 data = pd.DataFrame({

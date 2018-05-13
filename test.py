@@ -8,7 +8,7 @@ print(corpus)
 
 lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=120)
 # lsi = models.LdaModel(corpus, id2word=dictionary, num_topics=120)
-doc = "developer"
+doc = "sql engineer"
 vec_bow = dictionary.doc2bow(doc.lower().split())
 vec_lsi = lsi[vec_bow]
 
@@ -21,6 +21,9 @@ sims = sorted(enumerate(sims), key=lambda item: -item[1])
 import pandas as pd
 import numpy as np
 df = pd.read_csv('data.csv')
+print (sims[:10])
 for i in sims[:10]:
     print (df.ix[i[0]])
     print ("")
+
+print (df['description'][2])
