@@ -4,11 +4,11 @@ import time
 import pandas as pd
 
 page_start = 0
-pages = 5
+pages = 11
 
-terms = ["software developer", "mechanical engineer", "marketing", "business", "financial analyst", "insurance", "engineer", "machine learning", "Google"]
+terms = ["computer science", "software developer", "mechanical engineer", "marketing", "business", "financial analyst", "insurance", "engineer", "machine learning", "data science", "civil engineer", "artist", "graphic designer", "business analyst", "recruiter", "chef"]
 # initialize Selenium Web Driver
-
+print ("Expected docs: %s" % (pages * len(terms) * 6))
 titles = []
 companies = []
 descriptions = []
@@ -93,7 +93,7 @@ for term in terms:
         "title": titles,
         "description": descriptions
     })
-    data.append(d2, ignore_index = True)
+    data = pd.concat([data, d2])
     data.to_csv('data.csv')
     driver.quit()
 
