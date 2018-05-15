@@ -9,11 +9,11 @@ dictionary = corpora.Dictionary.load('data.dict')
 corpus = corpora.MmCorpus('data.mm') # comes from the first tutorial, "From strings to vectors"
 # print(corpus)
 
-lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=200)
+# lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=200)
 # lsi = models.LdaModel(corpus, id2word=dictionary, num_topics=50, passes=5, eval_every=1)
 # lsi = models.LdaSeqModel(corpus, id2word=dictionary, num_topics=100, eval_every=10 passes=100)
 
-# lsi = models.TfidfModel(corpus, id2word=dictionary)#, num_topics=120)
+lsi = models.TfidfModel(corpus, id2word=dictionary)#, num_topics=120)
 print ()
 # lsi.print_topics()
 # # exit()
@@ -47,10 +47,11 @@ def get_sentence_similarity(sent_1, sent_2, model):
 
 
     x =  np.absolute(np.subtract(sent_sum_1 / s1_use, sent_sum_2 / s2_use))
+    print (x)
     return sum(x)/len(x)
 
 print ()
-doc = "c++ developer"
+doc = "financial analyst"
 vec_bow = dictionary.doc2bow(doc.lower().split())
 vec_lsi = lsi[vec_bow]
 
@@ -63,11 +64,13 @@ model = models.Word2Vec.load("model.w2v")
 top = sims[:10]
 vals = []
 for i in top:
-    text = df['jobpost'][i[0]]
+    print (i[0])
+    text = df['Title'][i[0]]
     # print (text)
     # print (get_sentence_similarity(text, doc, model))
     # exit()
     # vals.append([model.wmdistance(doc, text), i[0]])
+    print (text)
     vals.append([get_sentence_similarity(text, doc, model), i[0]])
 
 sims = sorted(vals, key=lambda item: item[0])
@@ -76,7 +79,7 @@ print (sims[:10])
 c = 0
 for i in sims[:10]:
     print (df.ix[i[1]])
-    print ("WMD: %s" % vals[c][0])
+    print ("WMD: %s" % sims[c][0])
     c += 1
     print ("")
     print ("")
