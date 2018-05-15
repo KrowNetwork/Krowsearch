@@ -50,7 +50,7 @@ def get_sentence_similarity(sent_1, sent_2, model):
     return sum(x)/len(x)
 
 print ()
-doc = "software engineer"
+doc = "c++ developer"
 vec_bow = dictionary.doc2bow(doc.lower().split())
 vec_lsi = lsi[vec_bow]
 
@@ -63,7 +63,7 @@ model = models.Word2Vec.load("model.w2v")
 top = sims[:10]
 vals = []
 for i in top:
-    text = df['Title'][i[0]]
+    text = df['jobpost'][i[0]]
     # print (text)
     # print (get_sentence_similarity(text, doc, model))
     # exit()
