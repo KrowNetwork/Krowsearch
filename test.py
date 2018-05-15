@@ -64,14 +64,15 @@ model = models.Word2Vec.load("model.w2v")
 top = sims[:10]
 vals = []
 for i in top:
-    print (i[0])
-    text = df['Title'][i[0]]
+    # print (i[0])
+    full = df['jobpost'][i[0]]
+    title = df['Title'][i[0]]
     # print (text)
     # print (get_sentence_similarity(text, doc, model))
     # exit()
     # vals.append([model.wmdistance(doc, text), i[0]])
-    print (text)
-    vals.append([get_sentence_similarity(text, doc, model), i[0]])
+    # print (text)
+    vals.append([(get_sentence_similarity(full, doc, model) + get_sentence_similarity(title, doc, model)) / 2, i[0]])
 
 sims = sorted(vals, key=lambda item: item[0])
 
