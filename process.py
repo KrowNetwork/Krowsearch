@@ -10,7 +10,7 @@ df.reset_index(drop=True)
 # print (df.columns)
 # print (df['jobpost'][0])
 np.random.shuffle(df.values)
-documents = df['jobpost']
+documents = df['Title']
 # titles = df['title']
 # companies = list(df['company'].values)
 stoplist = list(set('for a of the and to in at • is will on as our or we an work new with you are be · all other inc your about becasue that their this too each few during has by job'.split()))
@@ -47,6 +47,6 @@ texts = [[word for word in str(document).lower().split() if word not in stoplist
 # # corpora.MmCorpus.serialize('test.mm', corpus)
 #
 dictionary = corpora.Dictionary(texts)
-dictionary.save('test.dict')
+dictionary.save('data.dict')
 corpus = [dictionary.doc2bow(text) for text in texts]
-corpora.MmCorpus.serialize('test.mm', corpus)
+corpora.MmCorpus.serialize('data.mm', corpus)
