@@ -7,6 +7,8 @@ import argparse
 parser = argparse.ArgumentParser(description='search')
 parser.add_argument('--title',
                     help='job title to search for', default=None)
+parser.add_argument('--company',
+                    help='company to search for', default=None)
 args = parser.parse_args()
 
 df = pd.read_csv('data job posts.csv')
@@ -50,7 +52,7 @@ def get_sentence_similarity(sent_1, sent_2, model):
     x =  np.absolute(np.subtract(sent_sum_1 / s1_use, sent_sum_2 / s2_use))
     return sum(x)/len(x)
 
-doc = args.title
+term = args.title
 vec_bow = dictionary.doc2bow(doc.lower().split())
 vec_lsi = lsi[vec_bow]
 
@@ -62,10 +64,17 @@ model = models.Word2Vec.load("model.w2v")
 top = sims[:10]
 vals = []
 for i in top:
-    full = df['jobpost'][i[0]]
-    title = df['Title'][i[0]]
+    count = 0
+    vector_avg = 0
+    if args.title != None:
+        vector_avg += get_sentence_similarity(args.title, df['jobpost'][i[0]], model)
+        vector_avg += get_sentence_similarity(args.title, df['Title'][i[0]], model)
+        count += 2
+    if args.company != None:
+        vector_avg += get_sentence_similarity(df['Company'][i[0]], args.company, model) * 1.2
+        count += 1
     # vals.append([model.wmdistance(doc, text), i[0]])
-    vals.append([(get_sentence_similarity(full, doc, model) + get_sentence_similarity(title, doc, model)) / 2, i[0]])
+    vals.append([vector_avg / count, i[0]])
 
 sims = sorted(vals, key=lambda item: item[0])
 
