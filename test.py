@@ -2,8 +2,18 @@ import logging, gensim
 from gensim import similarities, corpora, models
 import pandas as pd
 import numpy as np
+import argparse
+
+parser = argparse.ArgumentParser(description='search')
+parser.add_argument('--title',
+                    help='job title to search for', default=None)
+args = parser.parse_args()
+
+# print (args.title)
+
+
 df = pd.read_csv('data job posts.csv')
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+# logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 dictionary = corpora.Dictionary.load('data.dict')
 corpus = corpora.MmCorpus('data.mm') # comes from the first tutorial, "From strings to vectors"
@@ -14,7 +24,7 @@ corpus = corpora.MmCorpus('data.mm') # comes from the first tutorial, "From stri
 # lsi = models.LdaSeqModel(corpus, id2word=dictionary, num_topics=100, eval_every=10 passes=100)
 
 lsi = models.TfidfModel(corpus, id2word=dictionary)#, num_topics=120)
-print ()
+# print ()
 # lsi.print_topics()
 # # exit()
 
@@ -47,11 +57,11 @@ def get_sentence_similarity(sent_1, sent_2, model):
 
 
     x =  np.absolute(np.subtract(sent_sum_1 / s1_use, sent_sum_2 / s2_use))
-    print (x)
+    # print (x)
     return sum(x)/len(x)
 
-print ()
-doc = "financial analyst"
+# print ()
+doc = args.title
 vec_bow = dictionary.doc2bow(doc.lower().split())
 vec_lsi = lsi[vec_bow]
 
