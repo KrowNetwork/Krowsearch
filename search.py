@@ -5,8 +5,8 @@ import numpy as np
 import argparse
 
 def get_sentence_difference(sent_1, sent_2, model):
-    sent_list_1 = sent_1.split()
-    sent_list_2 = sent_2.split()
+    sent_list_1 = str(sent_1).split()
+    sent_list_2 = str(sent_2).split()
     s1_use = 0
     s2_use = 0
 
@@ -34,8 +34,8 @@ def get_sentence_difference(sent_1, sent_2, model):
     return sum(x)/len(x)
 
 def company_similarity_scorer(sent_1, sent_2):
-    sent_1 = sent_1.lower()
-    sent_2 = sent_2.lower()
+    sent_1 = str(sent_1).lower()
+    sent_2 = str(sent_2).lower()
 
     score = 0
 
@@ -45,12 +45,19 @@ def company_similarity_scorer(sent_1, sent_2):
 
     return score
 
+def normalize_differences(diffs):
+    vals = [i[0] for i in diffs]
+    max_diff = max(vals)
+    normed = vals/max_diff
+    for i, a in zip(diffs, normed):
+        i[0] = a
+    return diffs
 
 
 
 parser = argparse.ArgumentParser(description='search')
 parser.add_argument('--title',
-                    help='job title to search for', default=None)
+                    help='job title to search for', default="")
 parser.add_argument('--company',
                     help='company to search for', default=None)
 args = parser.parse_args()
@@ -78,12 +85,12 @@ index = similarities.MatrixSimilarity(lsi[corpus])
 sims = index[vec_lsi]
 sims = sorted(enumerate(sims), key=lambda item: -item[1])
 model = models.Word2Vec.load("model.w2v")
-top = sims[:100]
+top = sims#[:100]
 vals = []
 for i in top:
     count = 0
     vector_avg = 0
-    if args.title != None:
+    if args.title != "":
         vector_avg += get_sentence_difference(args.title, df['jobpost'][i[0]], model)
         vector_avg += get_sentence_difference(args.title, df['Title'][i[0]], model)
         count += 2
@@ -93,6 +100,7 @@ for i in top:
     # vals.append([model.wmdistance(doc, text), i[0]])
     vals.append([vector_avg / count, i[0]])
 
+normalize_differences(vals)
 sims = sorted(vals, key=lambda item: item[0])
 
 print (sims[:10])
