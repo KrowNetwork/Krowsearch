@@ -83,3 +83,9 @@ print ("Clusters: %s" % clusters)
 
 print (model.wmdistance("Software engineer", "programmer"))
 print (model.wmdistance("software developer", "mechanical engineer"))
+
+model = models.TfidfModel(corpus, id2word=dictionary)
+model.save("model.tfidf")
+
+m2 = similarities.MatrixSimilarity(model[corpus])
+m2.save("similarity.matrix")

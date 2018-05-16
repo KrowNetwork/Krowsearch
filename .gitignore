@@ -2,3 +2,7 @@
 *.dict
 *.mm
 *.mm.index
+*.npy
+*.matrix
+*.tfidf
+*.w2v

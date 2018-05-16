@@ -65,26 +65,30 @@ args = parser.parse_args()
 df = pd.read_csv('data job posts.csv')
 # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
+
 dictionary = corpora.Dictionary.load('data.dict')
 corpus = corpora.MmCorpus('data.mm')
+print ("Loaded dictionary and corpus")
 
 # lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=200)
 # lsi = models.LdaModel(corpus, id2word=dictionary, num_topics=50, passes=5, eval_every=1)
 # lsi = models.LdaSeqModel(corpus, id2word=dictionary, num_topics=100, eval_every=10 passes=100)
-lsi = models.TfidfModel(corpus, id2word=dictionary)
+lsi = models.TfidfModel.load("model.tfidf")
+print ("Loaded TFIDF model")
 
+model = models.Word2Vec.load("model.w2v")
+print ("Loaded Word2Vec")
 
-
+index = similarities.MatrixSimilarity.load("similarity.matrix")
+print ("Loaded similarity model")
 
 term = args.title
 vec_bow = dictionary.doc2bow(term.lower().split())
 vec_lsi = lsi[vec_bow]
 
-index = similarities.MatrixSimilarity(lsi[corpus])
-
 sims = index[vec_lsi]
 sims = sorted(enumerate(sims), key=lambda item: -item[1])
-model = models.Word2Vec.load("model.w2v")
+
 top = sims#[:100]
 vals = []
 for i in top:
@@ -99,11 +103,11 @@ for i in top:
         count += 1
     # vals.append([model.wmdistance(doc, text), i[0]])
     vals.append([vector_avg / count, i[0]])
-
+print ("Processed all entries")
 normalize_differences(vals)
+print ("Normalized differences")
 sims = sorted(vals, key=lambda item: item[0])
 
-print (sims[:10])
 c = 0
 for i in sims[:10]:
     print (df.ix[i[1]])
