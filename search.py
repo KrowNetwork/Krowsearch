@@ -30,9 +30,23 @@ def get_sentence_difference(sent_1, sent_2, model):
         except:
             pass
 
-
     x =  np.absolute(np.subtract(sent_sum_1 / s1_use, sent_sum_2 / s2_use))
     return sum(x)/len(x)
+
+def company_similarity_scorer(sent_1, sent_2):
+    sent_1 = sent_1.lower()
+    sent_2 = sent_2.lower()
+
+    score = 0
+
+    for word in sent_1.split():
+        if word not in sent_2:
+            score += 1
+
+    return score
+
+
+
 
 parser = argparse.ArgumentParser(description='search')
 parser.add_argument('--title',
@@ -74,7 +88,7 @@ for i in top:
         vector_avg += get_sentence_difference(args.title, df['Title'][i[0]], model)
         count += 2
     if args.company != None:
-        vector_avg += get_sentence_difference(args.company, df['Company'][i[0]], model)#get_sentence_similarity(df['Company'][i[0]], args.company, model)
+        vector_avg += company_similarity_scorer(args.company, df['Company'][i[0]])#get_sentence_similarity(df['Company'][i[0]], args.company, model)
         count += 1
     # vals.append([model.wmdistance(doc, text), i[0]])
     vals.append([vector_avg / count, i[0]])
