@@ -85,7 +85,7 @@ print (sims[:10])
 c = 0
 for i in sims[:10]:
     print (df.ix[i[1]])
-    print ("WMD: %s" % sims[c][0])
+    print ("Difference Score: %s" % sims[c][0])
     c += 1
     print ("")
     print ("")
