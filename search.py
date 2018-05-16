@@ -41,7 +41,7 @@ def company_similarity_scorer(sent_1, sent_2):
 
     for word in sent_1.split():
         if word not in sent_2:
-            score += 1
+            score += .5
 
     return score
 
