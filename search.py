@@ -54,7 +54,8 @@ def company_similarity_scorer(sent_1, sent_2):
 def normalize_differences(diffs):
     vals = [i[0] for i in diffs]
     max_diff = max(vals)
-    normed = vals/max_diff
+    min_diff = min(vals)
+    normed = (vals - min_diff)/max_diff
     for i, a in zip(diffs, normed):
         i[0] = a
     return diffs
