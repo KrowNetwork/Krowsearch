@@ -3,6 +3,12 @@ from gensim import similarities, corpora, models
 import pandas as pd
 import numpy as np
 import argparse
+from datetime import datetime, date
+import dateparser
+
+def parse_date(date):
+    # return datetime.strptime(date, "%b %d, %Y").date()
+    return dateparser.parse(date).date()
 
 def get_sentence_difference(sent_1, sent_2, model):
     sent_list_1 = str(sent_1).split()
@@ -63,6 +69,8 @@ parser.add_argument('--company',
 args = parser.parse_args()
 
 df = pd.read_csv('data job posts.csv')
+# print (df['date'])
+# exit()
 # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 
@@ -91,9 +99,12 @@ sims = sorted(enumerate(sims), key=lambda item: -item[1])
 
 top = sims#[:100]
 vals = []
+today = date.today()
 for i in top:
-    count = 0
-    vector_avg = 0
+    count = 1
+    vector_avg = i[1]
+    # delta = today - parse_date(str(df['OpeningDate'][i[0]]))
+    # vector_avg += delta.days / 365
     if args.title != "":
         vector_avg += get_sentence_difference(args.title, df['jobpost'][i[0]], model)
         vector_avg += get_sentence_difference(args.title, df['Title'][i[0]], model)
