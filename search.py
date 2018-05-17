@@ -88,8 +88,9 @@ print ("Loaded TFIDF model")
 model = models.Word2Vec.load("model.w2v")
 print ("Loaded Word2Vec")
 
-index = similarities.MatrixSimilarity.load("similarity.matrix")
-print ("Loaded similarity model")
+# index = similarities.MatrixSimilarity.load("similarity.matrix")
+index = similarities.MatrixSimilarity(model[corpus])
+print ("Created similarity model")
 
 term = args.title
 vec_bow = dictionary.doc2bow(term.lower().split())
@@ -107,11 +108,11 @@ for i in top:
     # delta = today - parse_date(str(df['OpeningDate'][i[0]]))
     # vector_avg += delta.days / 365
     if args.title != "":
-        vector_avg += get_sentence_difference(args.title, df['jobpost'][i[0]], model)
-        vector_avg += get_sentence_difference(args.title, df['Title'][i[0]], model)
+        vector_avg += get_sentence_difference(args.title, df['jobdescription'][i[0]], model)
+        vector_avg += get_sentence_difference(args.title, df['jobtitle'][i[0]], model)
         count += 2
     if args.company != None:
-        vector_avg += company_similarity_scorer(args.company, df['Company'][i[0]])#get_sentence_similarity(df['Company'][i[0]], args.company, model)
+        vector_avg += company_similarity_scorer(args.company, df['company'][i[0]])#get_sentence_similarity(df['Company'][i[0]], args.company, model)
         count += 1
     # vals.append([model.wmdistance(doc, text), i[0]])
     vals.append([vector_avg / count, i[0]])

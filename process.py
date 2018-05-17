@@ -7,17 +7,18 @@ from sklearn.mixture import GaussianMixture
 from sklearn.cluster import KMeans, MeanShift
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
-df = pd.read_csv('data job posts.csv')
+df = pd.read_csv('data.csv')
 df.drop_duplicates()
 df.reset_index(drop=True)
+
 # print (df.columns)
 # print (df['jobpost'][0])
 np.random.shuffle(df.values)
-documents = df['jobpost']
+documents = df['jobdescription']
 # documents = df['Title']
 # titles = df['title']
 # companies = list(df['company'].values)
-stoplist = list(set('for a of the and to in at • is will on as our or we an work new with you are be · all other inc your about becasue that their this too each few during has by job'.split()))
+stoplist = list(set('for a of the and to in at • is will on as our or we an work new with you are be · all other inc your about becasue that their this too each few during has by job - /'.split()))
 texts = [[word for word in str(document).lower().split() if word not in stoplist] for document in documents]
 # texts = [document.split(".") for document in documents]
 # print (models.word2vec.Text8Corpus('text8'))
@@ -87,5 +88,5 @@ print (model.wmdistance("software developer", "mechanical engineer"))
 model = models.TfidfModel(corpus, id2word=dictionary)
 model.save("model.tfidf")
 
-m2 = similarities.MatrixSimilarity(model[corpus])
-m2.save("similarity.matrix")
+# m2 = similarities.MatrixSimilarity(model[corpus])
+# m2.save("similarity.matrix")
