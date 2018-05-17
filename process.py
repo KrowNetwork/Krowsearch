@@ -18,49 +18,25 @@ documents = df['jobdescription']
 # documents = df['Title']
 # titles = df['title']
 # companies = list(df['company'].values)
-stoplist = list(set('for a of the and to in at • is will on as our or we an work new with you are be · all other inc your about becasue that their this too each few during has by job - /'.split()))
+with open("stopwords.txt", "r") as f:
+    stoplist = f.readlines()
+    for word in range(len(stoplist)):
+        stoplist[word] = stoplist[word].replace("\n", "")
+    stoplist.append("\\")
+    stoplist.append("/")
+    stoplist.append(".")
+    stoplist.append("-")
+# stoplist = list(set('for a of the and to in at • is will on as our or we an work new with you are be · all other inc your about becasue that their this too each few during has by job - /'.split()))
 texts = [[word for word in str(document).lower().split() if word not in stoplist] for document in documents]
-# texts = [document.split(".") for document in documents]
-# print (models.word2vec.Text8Corpus('text8'))
-# exit()
-#
-# titles_ = [[word for word in str(title).lower().split() if word not in stoplist] for title in titles]
-#
-# comapnies_ = [[word for word in str(company).lower().split() if word not in stoplist] for company in companies]
-#
-# titles = titles_
-# companies = comapnies_
-# count = 0
-# for i in texts:
-#     i.extend(titles[count])
-#     i.extend(companies[count])
-#     count += 1
-# # texts.extend(title)
-# # print (companies)
-# # texts.extend([companies])
-# # texts[0].extend(companies)
-# # remove words that appear only once
-# # from collections import defaultdict
-# # frequency = defaultdict(int)
-# # for text in texts:
-# #     for token in text:
-# #         frequency[token] += 1
-# #
-# # texts = [[token for token in text if frequency[token] > 1]
-# #          for text in texts]
-# print (texts)
-# # dictionary = corpora.Dictionary(texts)
-# # dictionary.save('test.dict')
-# # corpus = [dictionary.doc2bow(text) for text in texts]
-# # corpora.MmCorpus.serialize('test.mm', corpus)
-#
+
+
 dictionary = corpora.Dictionary(texts)
 dictionary.save('data.dict')
 corpus = [dictionary.doc2bow(text) for text in texts]
 corpora.MmCorpus.serialize('data.mm', corpus)
-model = models.Word2Vec(texts, size=50, window=10, min_count=1, workers=10)
+model = models.Word2Vec(texts, size=100, window=25, min_count=1, workers=10)
 # model = models.Doc2Vec(texts, size=25, window=10, min_count=1, workers=10)
-model.train(texts, total_examples=len(texts), epochs=50)
+model.train(texts, total_examples=len(texts), epochs=75)
 # print (model.wv['software'])
 model.save("model.w2v")
 print (model.wv.most_similar(positive=['software']))

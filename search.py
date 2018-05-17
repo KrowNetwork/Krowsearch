@@ -16,8 +16,8 @@ def get_sentence_difference(sent_1, sent_2, model):
     s1_use = 0
     s2_use = 0
 
-    sent_sum_1 = np.zeros(50)
-    sent_sum_2 = np.zeros(50)
+    sent_sum_1 = np.zeros(100)
+    sent_sum_2 = np.zeros(100)
 
     for word in sent_list_1:
         try:
@@ -117,7 +117,7 @@ for i in top:
     # vals.append([model.wmdistance(doc, text), i[0]])
     vals.append([vector_avg / count, i[0]])
 
-print (vals)
+# print (vals)
 print ("Processed all entries")
 # normalize_differences(vals)
 print ("Normalized differences")
