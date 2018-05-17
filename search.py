@@ -16,8 +16,8 @@ def get_sentence_difference(sent_1, sent_2, model):
     s1_use = 0
     s2_use = 0
 
-    sent_sum_1 = np.zeros(10)
-    sent_sum_2 = np.zeros(10)
+    sent_sum_1 = np.zeros(50)
+    sent_sum_2 = np.zeros(50)
 
     for word in sent_list_1:
         try:
@@ -69,7 +69,7 @@ parser.add_argument('--company',
                     help='company to search for', default=None)
 args = parser.parse_args()
 
-df = pd.read_csv('data job posts.csv')
+df = pd.read_csv('data.csv')
 # print (df['date'])
 # exit()
 # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -89,7 +89,7 @@ model = models.Word2Vec.load("model.w2v")
 print ("Loaded Word2Vec")
 
 # index = similarities.MatrixSimilarity.load("similarity.matrix")
-index = similarities.MatrixSimilarity(model[corpus])
+index = similarities.MatrixSimilarity(lsi[corpus])
 print ("Created similarity model")
 
 term = args.title
@@ -99,7 +99,7 @@ vec_lsi = lsi[vec_bow]
 sims = index[vec_lsi]
 sims = sorted(enumerate(sims), key=lambda item: -item[1])
 
-top = sims#[:100]
+top = sims#[:1000]
 vals = []
 today = date.today()
 for i in top:
@@ -116,14 +116,17 @@ for i in top:
         count += 1
     # vals.append([model.wmdistance(doc, text), i[0]])
     vals.append([vector_avg / count, i[0]])
+
+print (vals)
 print ("Processed all entries")
-normalize_differences(vals)
+# normalize_differences(vals)
 print ("Normalized differences")
 sims = sorted(vals, key=lambda item: item[0])
 
 c = 0
 for i in sims[:10]:
-    print (df.ix[i[1]])
+    print ("Company: %s" % df['company'][i[1]])
+    print ("Title: %s" % df['jobtitle'][i[1]])
     print ("Difference Score: %s" % sims[c][0])
     c += 1
     print ("")
