@@ -34,6 +34,7 @@ def get_sentence_difference(sent_1, sent_2, model):
 parser = argparse.ArgumentParser(description='search')
 parser.add_argument('--similarity',
                     nargs=2, default=[None, None])
+parser.add_argument("--findsimilar", default="")
 
 args = parser.parse_args()
 
@@ -45,3 +46,10 @@ if (args.similarity != [None, None]):
     print ("software developer vs financial analyst (FAR): %s" % get_sentence_difference("software developer", "financial analyst", model))
     print ("marketing manager vs financial advisor (CLOSE): %s" % get_sentence_difference("marketing manager", "financial advisor", model))
     print ("%s vs %s: %s" % (args.similarity[0], args.similarity[1], get_sentence_difference(args.similarity[0], args.similarity[1], model)))
+
+if (args.findsimilar != ""):
+    model = models.Word2Vec.load("model.w2v")
+    print ("Loaded Word2Vec")
+    print ("Top 10 most similar to %s: " % args.findsimilar)
+    for i in model.similar_by_vector(args.findsimilar, topn=10, restrict_vocab=None):
+        print ("\t%s" % str(i))
