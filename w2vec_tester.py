@@ -8,8 +8,8 @@ def get_sentence_difference(sent_1, sent_2, model):
     s1_use = 0
     s2_use = 0
 
-    sent_sum_1 = np.zeros(100)
-    sent_sum_2 = np.zeros(100)
+    sent_sum_1 = np.zeros(200)
+    sent_sum_2 = np.zeros(200)
 
     for word in sent_list_1:
         try:

@@ -16,8 +16,8 @@ def get_sentence_difference(sent_1, sent_2, model):
     s1_use = 0
     s2_use = 0
 
-    sent_sum_1 = np.zeros(100)
-    sent_sum_2 = np.zeros(100)
+    sent_sum_1 = np.zeros(200)
+    sent_sum_2 = np.zeros(200)
 
     for word in sent_list_1:
         try:
@@ -55,10 +55,15 @@ def normalize_differences(diffs):
     vals = [i[0] for i in diffs]
     max_diff = max(vals)
     min_diff = min(vals)
-    normed = (vals - min_diff)/max_diff
-    for i, a in zip(diffs, normed):
-        i[0] = a
-    return diffs
+
+
+    # normed = (vals - min_diff)/max_diff
+    new = []
+    for i, a in zip(diffs, vals):
+        new.append([(a - min_diff) / (max_diff - min_diff), i[1]])
+    # print (min(normed))
+    # exit()
+    return new
 
 
 
@@ -70,6 +75,8 @@ parser.add_argument('--company',
 args = parser.parse_args()
 
 df = pd.read_csv('data.csv')
+# print (df.columns)
+# exit()
 # print (df['date'])
 # exit()
 # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -78,6 +85,7 @@ df = pd.read_csv('data.csv')
 dictionary = corpora.Dictionary.load('data.dict')
 corpus = corpora.MmCorpus('data.mm')
 print ("Loaded dictionary and corpus")
+
 
 # lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=200)
 # lsi = models.LdaModel(corpus, id2word=dictionary, num_topics=50, passes=5, eval_every=1)
@@ -105,7 +113,8 @@ today = date.today()
 for i in top:
     count = 1
     vector_avg = i[1]
-    # delta = today - parse_date(str(df['OpeningDate'][i[0]]))
+    # delta = today - parse_date(str(df['postdate'][i[0]]))
+    # count += 1
     # vector_avg += delta.days / 365
     if args.title != "":
         vector_avg += get_sentence_difference(args.title, df['jobdescription'][i[0]], model)
@@ -118,8 +127,9 @@ for i in top:
     vals.append([vector_avg / count, i[0]])
 
 # print (vals)
+# vals = np.array(vals)
 print ("Processed all entries")
-# normalize_differences(vals)
+vals = normalize_differences(vals)
 print ("Normalized differences")
 sims = sorted(vals, key=lambda item: item[0])
 
@@ -127,6 +137,7 @@ c = 0
 for i in sims[:10]:
     print ("Company: %s" % df['company'][i[1]])
     print ("Title: %s" % df['jobtitle'][i[1]])
+    print ("Post Date: %s" % df['postdate'][i[1]])
     print ("Difference Score: %s" % sims[c][0])
     c += 1
     print ("")
