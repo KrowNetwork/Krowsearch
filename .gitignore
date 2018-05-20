@@ -6,3 +6,4 @@
 *.matrix
 *.tfidf
 *.w2v
+krow_jobs/
