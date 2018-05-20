@@ -102,7 +102,7 @@ for i in top:
         vector_avg += get_sentence_difference(args.title, df['jobtitle'][i[0]], model)
         count += 2
     if args.company != None:
-        vector_avg += company_similarity_scorer(args.company, df['company'][i[0]]
+        vector_avg += company_similarity_scorer(args.company, df['company'][i[0]])
         count += 1
     vals.append([vector_avg / count, i[0]])
 
