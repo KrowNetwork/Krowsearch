@@ -7,7 +7,6 @@ from datetime import datetime, date
 import dateparser
 
 def parse_date(date):
-    # return datetime.strptime(date, "%b %d, %Y").date()
     return dateparser.parse(date).date()
 
 def get_sentence_difference(sent_1, sent_2, model):
@@ -55,14 +54,10 @@ def normalize_differences(diffs):
     vals = [i[0] for i in diffs]
     max_diff = max(vals)
     min_diff = min(vals)
-
-
-    # normed = (vals - min_diff)/max_diff
     new = []
     for i, a in zip(diffs, vals):
         new.append([(a - min_diff) / (max_diff - min_diff), i[1]])
-    # print (min(normed))
-    # exit()
+
     return new
 
 
@@ -75,28 +70,17 @@ parser.add_argument('--company',
 args = parser.parse_args()
 
 df = pd.read_csv('data.csv')
-# print (df.columns)
-# exit()
-# print (df['date'])
-# exit()
-# logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-
 
 dictionary = corpora.Dictionary.load('data.dict')
 corpus = corpora.MmCorpus('data.mm')
 print ("Loaded dictionary and corpus")
 
-
-# lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=200)
-# lsi = models.LdaModel(corpus, id2word=dictionary, num_topics=50, passes=5, eval_every=1)
-# lsi = models.LdaSeqModel(corpus, id2word=dictionary, num_topics=100, eval_every=10 passes=100)
 lsi = models.TfidfModel.load("model.tfidf")
 print ("Loaded TFIDF model")
 
 model = models.Word2Vec.load("model.w2v")
 print ("Loaded Word2Vec")
 
-# index = similarities.MatrixSimilarity.load("similarity.matrix")
 index = similarities.MatrixSimilarity(lsi[corpus])
 print ("Created similarity model")
 
@@ -113,21 +97,15 @@ today = date.today()
 for i in top:
     count = 1
     vector_avg = i[1]
-    # delta = today - parse_date(str(df['postdate'][i[0]]))
-    # count += 1
-    # vector_avg += delta.days / 365
     if args.title != "":
         vector_avg += get_sentence_difference(args.title, df['jobdescription'][i[0]], model)
         vector_avg += get_sentence_difference(args.title, df['jobtitle'][i[0]], model)
         count += 2
     if args.company != None:
-        vector_avg += company_similarity_scorer(args.company, df['company'][i[0]])#get_sentence_similarity(df['Company'][i[0]], args.company, model)
+        vector_avg += company_similarity_scorer(args.company, df['company'][i[0]]
         count += 1
-    # vals.append([model.wmdistance(doc, text), i[0]])
     vals.append([vector_avg / count, i[0]])
 
-# print (vals)
-# vals = np.array(vals)
 print ("Processed all entries")
 vals = normalize_differences(vals)
 print ("Normalized differences")
