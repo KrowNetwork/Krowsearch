@@ -21,7 +21,7 @@ np.random.shuffle(df2.values)
 documents = df['jobdescription']
 doc2 = df2['description']
 
-with open("stopwords.txt", "r") as f:
+with open("assets/stopwords.txt", "r") as f:
     stoplist = f.readlines()
     for word in range(len(stoplist)):
         stoplist[word] = stoplist[word].replace("\n", "")
