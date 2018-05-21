@@ -69,7 +69,7 @@ parser.add_argument('--company',
                     help='company to search for', default=None)
 args = parser.parse_args()
 
-df = pd.read_csv('data.csv')
+df = pd.read_csv('data2.csv')
 
 dictionary = corpora.Dictionary.load('data.dict')
 corpus = corpora.MmCorpus('data.mm')
@@ -98,8 +98,8 @@ for i in top:
     count = 1
     vector_avg = i[1]
     if args.title != "":
-        vector_avg += get_sentence_difference(args.title, df['jobdescription'][i[0]], model)
-        vector_avg += get_sentence_difference(args.title, df['jobtitle'][i[0]], model)
+        vector_avg += get_sentence_difference(args.title, df['description'][i[0]], model)
+        vector_avg += get_sentence_difference(args.title, df['title'][i[0]], model)
         count += 2
     if args.company != None:
         vector_avg += company_similarity_scorer(args.company, df['company'][i[0]])
@@ -113,9 +113,9 @@ sims = sorted(vals, key=lambda item: item[0])
 
 c = 0
 for i in sims[:10]:
-    print ("Company: %s" % df['company'][i[1]])
-    print ("Title: %s" % df['jobtitle'][i[1]])
-    print ("Post Date: %s" % df['postdate'][i[1]])
+    # print ("Company: %s" % df['company'][i[1]])
+    print ("Title: %s" % df['title'][i[1]])
+    print ("ID: %s" % df['ID'][i[1]])
     print ("Difference Score: %s" % sims[c][0])
     c += 1
     print ("")

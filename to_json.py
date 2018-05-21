@@ -10,8 +10,6 @@ np.random.shuffle(df.values)
 descs = df['jobdescription'].values
 titles = df['jobtitle'].values
 
-
-
 count = 1000
 for i in range(count):
     data = {
