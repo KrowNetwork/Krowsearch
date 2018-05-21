@@ -3,7 +3,7 @@ import json
 import random
 import numpy as np
 
-df = pd.read_csv("data.csv")
+df = pd.read_csv("datasets/data.csv")
 
 np.random.shuffle(df.values)
 

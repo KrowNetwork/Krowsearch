@@ -69,16 +69,16 @@ parser.add_argument('--company',
                     help='company to search for', default=None)
 args = parser.parse_args()
 
-df = pd.read_csv('data2.csv')
+df = pd.read_csv('datasets/data2.csv')
 
-dictionary = corpora.Dictionary.load('data.dict')
-corpus = corpora.MmCorpus('data.mm')
+dictionary = corpora.Dictionary.load('data/data.dict')
+corpus = corpora.MmCorpus('data/data.mm')
 print ("Loaded dictionary and corpus")
 
-lsi = models.TfidfModel.load("model.tfidf")
+lsi = models.TfidfModel.load("models/model.tfidf")
 print ("Loaded TFIDF model")
 
-model = models.Word2Vec.load("model.w2v")
+model = models.Word2Vec.load("models/model.w2v")
 print ("Loaded Word2Vec")
 
 index = similarities.MatrixSimilarity(lsi[corpus])

@@ -1,9 +1,2 @@
 *.log
-*.dict
-*.mm
-*.mm.index
-*.npy
-*.matrix
-*.tfidf
-*.w2v
 krow_jobs/

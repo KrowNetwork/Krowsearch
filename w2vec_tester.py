@@ -39,7 +39,7 @@ parser.add_argument("--findsimilar", default="")
 args = parser.parse_args()
 
 if (args.similarity != [None, None]):
-    model = models.Word2Vec.load("model.w2v")
+    model = models.Word2Vec.load("models/model.w2v")
     print ("Loaded Word2Vec")
 
     # print (model.wv.wmdistance(args.similarity[0], args.similarity[1]))
@@ -48,7 +48,7 @@ if (args.similarity != [None, None]):
     print ("%s vs %s: %s" % (args.similarity[0], args.similarity[1], get_sentence_difference(args.similarity[0], args.similarity[1], model)))
 
 if (args.findsimilar != ""):
-    model = models.Word2Vec.load("model.w2v")
+    model = models.Word2Vec.load("models/model.w2v")
     print ("Loaded Word2Vec")
     print ("Top 10 most similar to %s: " % args.findsimilar)
     for i in model.similar_by_vector(args.findsimilar, topn=10, restrict_vocab=None):
