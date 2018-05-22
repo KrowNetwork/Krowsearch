@@ -12,7 +12,7 @@
   "endDate": "2018-03-27T20:41:19.367Z",
   "payment": 10,
   "flags": 1,
-  "employer": "resource:network.krow.participants.Employer#SAMPLEEMPLOYER",
+  "employerID": "SAMPLEEMPLOYER",
   "deniedApplicants": [],
   "rating": {
     "$class": "network.krow.assets.Rating",

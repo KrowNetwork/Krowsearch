@@ -102,7 +102,10 @@ class Chain(object):
     def delete_all_jobs(self):
         x = self.get_all_avaliable_jobs()
         data = json.loads(x.text)
+        count = 0
         for i in data:
             # job = self.get_job(i['jobID'])
             self.delete("job", i['jobID'])
+            count += 1
             print ("Deleted %s" % i['jobID'])
+            print ("Jobs left: %s" % (len(data) - count))
