@@ -11,7 +11,7 @@ test_suite.create_samples(chain)
 
 for i in range(1000):
     try:
-        print (i)
+        # print (i)
         chain = Chain("http://18.220.46.51:3000/")
 
         employer = chain.get_employer("SAMPLEEMPLOYER")
