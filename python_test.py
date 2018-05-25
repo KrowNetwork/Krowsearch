@@ -8,7 +8,8 @@ class Tester(object):
         self.session = requests.Session()
 
     def test_get(self):
-        r = self.session.post("%ssearch" % self.url, json={"data": "yeet"})
+        r = self.session.get("%ssearch" % self.url, json={"data": "hr"})
+        print (r.text)
 
 
 tester = Tester("http://localhost:3000/")

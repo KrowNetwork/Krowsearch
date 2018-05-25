@@ -2,6 +2,7 @@
 var bodyParser = require('body-parser');
 var spawn = require("child_process").spawn;
 var fs = require('fs');
+
 var express = require('express'),
   app = express(),
   port = process.env.PORT || 3000;
@@ -11,21 +12,24 @@ var express = require('express'),
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
-app.post("/search", function(req, res) {
+app.get("/search", function(req, res) {
+  var python = spawn('python', ['search.py']);
+
   let body = req.body.data;
   console.log(body);
-  res.send("search term: ${body}")
+
   let ret = "Fail"
+  let results = "";
   // fs.writeFile("data.txt", body, function(err) {
   //   console.log("The file was saved!");
   // });
-  var python = spawn('python', ['search.py']);
   python.stdin.on('data', function(data){
     ret += data.toString();
   });
   python.stdout.on('data', function(chunk){
-    var chunk = chunk.toString('utf8');
-    console.log(chunk);
+    chunk = chunk.toString().split("'").join('"');
+    results = JSON.parse(chunk);
+    res.send(results)
   });
   python.on('exit', function(code){
     console.log("Process quit with code : " + code);
@@ -34,6 +38,7 @@ app.post("/search", function(req, res) {
   python.stdin.write(body);
   python.stdin.end();
   // console.log(ret);
+  // console.log(results);
 
 })
 

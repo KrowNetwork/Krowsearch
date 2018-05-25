@@ -8,7 +8,7 @@ import dateparser
 import sys, os
 import json
 
-parse_file = "data.txt"
+write_file = "results.json"
 # print ("Yuh")
 # sys.stdout.flush()
 # exit()
@@ -124,22 +124,29 @@ while True:
             count += 1
         vals.append([vector_avg / count, i[0]])
 
-    print ("Processed all entries")
+    # print ("Processed all entries")
     vals = normalize_differences(vals)
-    print ("Normalized differences")
+    # print ("Normalized differences")
     sims = sorted(vals, key=lambda item: item[0])
 
     c = 0
-    for i in sims[:10]:
+    data = {}
+    for i in sims:
         # print ("Company: %s" % df['company'][i[1]])
-        print ("Title: %s" % df['title'][i[1]])
-        print ("ID: %s" % df['ID'][i[1]])
-        print ("Difference Score: %s" % sims[c][0])
-        c += 1
-        print ("")
-        print ("")
+        # print ("Title: %s" % df['title'][i[1]])
+        # print ("ID: %s" % df['ID'][i[1]])
+        # print ("Difference Score: %s" % sims[c][0])
+        # c += 1
+        # print ("")
+        # print ("")
 
-    os.remove(parse_file)
+        data["%s" % c] = df["ID"][i[1]]
+        c += 1
+
+    # print (json.dumps(data))
+    print (data)
+
+    # os.remove(parse_file)
     sys.stdout.flush()
     # with open(parse_file, "w") as f:
     #     f.write("succ")
