@@ -5,7 +5,15 @@ import numpy as np
 import argparse
 from datetime import datetime, date
 import dateparser
+import sys, os
+import json
 
+parse_file = "data.txt"
+# print ("Yuh")
+# sys.stdout.flush()
+# exit()
+# with open(parse_file, "w") as f:
+#     f.write("succ")
 def parse_date(date):
     return dateparser.parse(date).date()
 
@@ -73,50 +81,65 @@ df = pd.read_csv('datasets/data2.csv')
 
 dictionary = corpora.Dictionary.load('data/data.dict')
 corpus = corpora.MmCorpus('data/data.mm')
-print ("Loaded dictionary and corpus")
+# print ("Loaded dictionary and corpus")
 
 lsi = models.TfidfModel.load("models/model.tfidf")
-print ("Loaded TFIDF model")
+# print ("Loaded TFIDF model")
 
 model = models.Word2Vec.load("models/model.w2v")
-print ("Loaded Word2Vec")
+# print ("Loaded Word2Vec")
 
 index = similarities.MatrixSimilarity(lsi[corpus])
-print ("Created similarity model")
+# print ("Created similarity model")
+while True:
+    # term = json.loads(sys.stdin.readlines()[0])
+    # while True:
+    #     try:
+    #         with open(parse_file, "r") as f:
+    #             term = f.read()
+    #             break
+    #     except:
+    #         pass
+    term = sys.stdin.readlines()
+    term = np.array(term)[0]
+    # print (term)
+    vec_bow = dictionary.doc2bow(term.lower().split())
+    vec_lsi = lsi[vec_bow]
 
-term = args.title
-vec_bow = dictionary.doc2bow(term.lower().split())
-vec_lsi = lsi[vec_bow]
+    sims = index[vec_lsi]
+    sims = sorted(enumerate(sims), key=lambda item: -item[1])
 
-sims = index[vec_lsi]
-sims = sorted(enumerate(sims), key=lambda item: -item[1])
+    top = sims#[:1000]
+    vals = []
+    today = date.today()
+    for i in top:
+        count = 1
+        vector_avg = i[1]
+        if term != "":
+            vector_avg += get_sentence_difference(term, df['description'][i[0]], model)
+            vector_avg += get_sentence_difference(term, df['title'][i[0]], model)
+            count += 2
+        if args.company != None:
+            vector_avg += company_similarity_scorer(args.company, df['company'][i[0]])
+            count += 1
+        vals.append([vector_avg / count, i[0]])
 
-top = sims#[:1000]
-vals = []
-today = date.today()
-for i in top:
-    count = 1
-    vector_avg = i[1]
-    if args.title != "":
-        vector_avg += get_sentence_difference(args.title, df['description'][i[0]], model)
-        vector_avg += get_sentence_difference(args.title, df['title'][i[0]], model)
-        count += 2
-    if args.company != None:
-        vector_avg += company_similarity_scorer(args.company, df['company'][i[0]])
-        count += 1
-    vals.append([vector_avg / count, i[0]])
+    print ("Processed all entries")
+    vals = normalize_differences(vals)
+    print ("Normalized differences")
+    sims = sorted(vals, key=lambda item: item[0])
 
-print ("Processed all entries")
-vals = normalize_differences(vals)
-print ("Normalized differences")
-sims = sorted(vals, key=lambda item: item[0])
+    c = 0
+    for i in sims[:10]:
+        # print ("Company: %s" % df['company'][i[1]])
+        print ("Title: %s" % df['title'][i[1]])
+        print ("ID: %s" % df['ID'][i[1]])
+        print ("Difference Score: %s" % sims[c][0])
+        c += 1
+        print ("")
+        print ("")
 
-c = 0
-for i in sims[:10]:
-    # print ("Company: %s" % df['company'][i[1]])
-    print ("Title: %s" % df['title'][i[1]])
-    print ("ID: %s" % df['ID'][i[1]])
-    print ("Difference Score: %s" % sims[c][0])
-    c += 1
-    print ("")
-    print ("")
+    os.remove(parse_file)
+    sys.stdout.flush()
+    # with open(parse_file, "w") as f:
+    #     f.write("succ")

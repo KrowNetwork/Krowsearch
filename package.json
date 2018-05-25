@@ -1,15 +1,16 @@
 {
   "name": "krow-search",
   "version": "0.0.1",
-  "description": "search engine for krow",
+  "description": "krow search engine",
   "main": "server.js",
   "dependencies": {
+    "express": "^4.16.3",
     "nodemon": "^1.17.5"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "Tucker Siegel",
   "license": "MIT"
