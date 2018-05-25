@@ -1,4 +1,3 @@
 *.log
-*.dict
-*.mm
-*.mm.index
+krow_jobs/
+node_modules
