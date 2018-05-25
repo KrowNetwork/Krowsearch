@@ -4,6 +4,8 @@
   "description": "krow search engine",
   "main": "server.js",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
     "express": "^4.16.3",
     "nodemon": "^1.17.5"
   },

@@ -6,30 +6,42 @@ var fs = require('fs');
 var express = require('express'),
   app = express(),
   port = process.env.PORT || 3000;
+app.engine('html', require('ejs').renderFile);
 
-// var routes = require('./routes.js'); //importing route
-// routes(app);
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
+// app.get("/search", function(req, res){
+//   res.render("index.html")
+// })
+
+app.get("/", function(req, res) {
+  res.render("index.html")
+});
+
 app.get("/search", function(req, res) {
   var python = spawn('python', ['search.py']);
-
-  let body = req.body.data;
+  var body = req.query.q;
+  var ret = "Fail"
+  var results = "";
   console.log(body);
-
-  let ret = "Fail"
-  let results = "";
-  // fs.writeFile("data.txt", body, function(err) {
-  //   console.log("The file was saved!");
-  // });
-  python.stdin.on('data', function(data){
-    ret += data.toString();
-  });
   python.stdout.on('data', function(chunk){
     chunk = chunk.toString().split("'").join('"');
     results = JSON.parse(chunk);
-    res.send(results)
+    var returns = ""
+    for (var i = 0; i < 10; i ++) {
+      var send = results[i.toString()]
+      var python2 = spawn('python', ['load_data_from_id.py']);
+      python2.stdout.on('data', function(chunk){
+        res.write("<p>")
+        res.write(chunk.toString())
+        res.write("</p>")
+      });
+      python2.stdin.write(send);
+      python2.stdin.end();
+    }
+
   });
   python.on('exit', function(code){
     console.log("Process quit with code : " + code);
@@ -37,10 +49,8 @@ app.get("/search", function(req, res) {
 
   python.stdin.write(body);
   python.stdin.end();
-  // console.log(ret);
-  // console.log(results);
 
-})
+});
 
 app.listen(port, function (err) {
   if (err) {
