@@ -1,0 +1,16 @@
+<html>
+  <script type="text/javascript">
+
+  </script>
+  <h1>Enter search term</h1>
+  <form method="get" action="/search">
+    <input class="q tt-query" spellcheck="false" autocomplete="off" name="q" type="text" id="searchTerm"/>
+    <input type="submit" value="Search" class="submitButton" id='search'>
+  </form>
+  <% if(results !== null) { %>
+    <p><%- results %></p>
+  <% } %>
+  <!-- <form>
+    <input type="submit" value="Next Page" class="submitButton">
+  </form> -->
+</html>
