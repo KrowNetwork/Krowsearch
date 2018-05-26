@@ -100,8 +100,9 @@ while True:
     #             break
     #     except:
     #         pass
-    term = sys.stdin.readlines()
-    term = np.array(term)[0]
+    # term = sys.stdin.readlines()
+    # term = np.array(term)[0]
+    term = input()
     # print (term)
     vec_bow = dictionary.doc2bow(term.lower().split())
     vec_lsi = lsi[vec_bow]
