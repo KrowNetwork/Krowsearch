@@ -4,73 +4,99 @@ var spawn = require("child_process").spawn;
 var fs = require('fs');
 var os = require("os")
 var path = require("path")
+var cluster = require("cluster")
+
+var num_cpus = os.cpus().length;
 
 var express = require('express'),
   app = express(),
   port = process.env.PORT || 3000;
-app.engine('html', require('ejs').renderFile);
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json());
 
-var python = spawn('python', ['search.py']);
+if (cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`);
 
+  // Fork workers.
+  for (let i = 0; i < num_cpus; i++) {
+    cluster.fork();
+  }
 
-// app.get("/search", function(req, res){
-//   res.render("index.html")
-// })
+} else {
 
-app.get("/", function(req, res, next) {
-  res.render("index.html")
-});
-app.get("/search", function(req, res) {
-  res.writeHead(200,{"Content-Type" : "text/html"});
-  var body = req.query.q;
-  var ret = ""
-  var results = "";
-  console.log(body);
-  python.stdout.on('data', function(chunk){
-    chunk = chunk.toString().split("'").join('"');
-    results = JSON.parse(chunk);
-    var returns = ""
-    // res.write("<form method=\"get\" action=\"/\">")
-    // res.write("<input type=\"submit\" value=\"Search\" class=\"submitButton\">")
-    // res.write("</form>")
-    res.write('<script type="text/javascript"></script>'+
-      '<form method="get" action="/search">'+
-      '<input class="q tt-query" spellcheck="false" autocomplete="off" name="q" type="text" />'+
-      '<input type="submit" value="Search" class="submitButton">'+
-     '</form>')
-    // res.write("<form></form>")
+  app.engine('html', require('ejs').renderFile);
+  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.json());
 
-    for (var i = 0; i < 10; i ++) {
-      var send = results[i.toString()]
-      var python2 = spawn('python', ['load_data_from_id.py']);
-      python2.stdout.on('data', function(chunk){
-        // ret += "<p>\n"
-        // ret += chunk.toString()
-        // ret += "</p>\n"
-        res.write("<p>")
-        res.write(chunk.toString())
-        res.write("</p>")
-      });
-      python2.stdin.write(send);
+  async function search(req, res, callback) {
+    var python = spawn('python', ['search.py'], {detached: true});
+    var query = req.query.q;
+    return new Promise(function(resolve, reject){
+
+      python.stdout.on('data', async (chunk) => {
+        chunk = chunk.toString().split("'").join('"');
+        results = JSON.parse(chunk);
+        // console.log(results);
+        var data = ""
+        var input = results["10"] + " "
+        for (var i = 9; i >= 0; i --){
+          // console.log()
+          input += results[i.toString()] + " "
+        }
+        // console.log(input)
+         await process_ID(input)
+          .then(function(result){
+            resolve(result.toString())
+          })
+
+        // console.log(data);
+      })
+      python.stdin.write(query);
+      python.stdin.write(os.EOL);
+
+    })
+
+  }
+
+  function process_ID(jobID) {
+    // var send = results[i.toString()]
+    var python2 = spawn('python', ['load_data_from_id.py']);
+    return new Promise(function (resolve, reject){
+      python2.stdout.on('data', async (chunk) =>{
+        resolve(chunk)
+      })
+      python2.stdin.write(jobID);
+      python2.stdin.write(os.EOL);
       python2.stdin.end();
+    })
 
-    }
+    // console.log(jobID)
+
+
+
+  }
+
+  app.get("/", function(req, res) {
+    res.render("index.html")
+  });
+  app.get("/search", async (req, res, next) => {
+    res.writeHead(200,{"Content-Type" : "text/html"});
+    await search(req, res)
+      .then(function (result){
+        res.write(result)
+        res.end()
+      })
+      return next()
+
+
+    // res.end()
+
+
 
   });
-  python.on('exit', function(code){
-    console.log("Process quit with code : " + code);
-  });
-  python.stdin.write(body);
-  python.stdin.write(os.EOL);
-  // console.log(ret);
-  // res.end();
-  // return false
-});
-app.listen(port, function (err) {
-  if (err) {
-    throw err
-  }
-  console.log('Server started on port 3000')
-})
+  app.listen(port, function (err) {
+    if (err) {
+      throw err
+    }
+    console.log(`Worker ${process.pid} started`);
+
+  })
+}
