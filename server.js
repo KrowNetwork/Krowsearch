@@ -16,6 +16,9 @@ var current_page = 1
 var full_res = ""
 var python = spawn('python', ['search.py'], {detached: true});
 
+function log(message) {
+  console.log("worker " + process.pid + ": " + message)
+}
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
@@ -48,7 +51,10 @@ if (cluster.isMaster) {
       python.stdout.on('data', async (chunk) => {
         results = chunk.toString().split(" ");
         // results = JSON.parse(chunk)//JSON.stringify(chunk));
-        console.log("recieved results")
+        // console.log("recieved results")
+        // console.log(process)
+        log("recieved results")
+
         // console.log(results)
         json_res = results;
         var data = ""
@@ -63,14 +69,14 @@ if (cluster.isMaster) {
          await process_ID(input)
           .then(function(result){
             resolve(result.toString(), json_res)
-            console.log("processed results")
+            log("processed results")
           })
 
         // console.log(data);
       })
-      console.log("recieved search term \"" + query + "\"")
-      python.stdin.write(query);
-      python.stdin.write(os.EOL);
+      log("recieved search term \"" + query + "\"")
+      python.stdin.write(query + os.EOL);
+      // python.stdin.write(os.EOL);
 
     })
 
@@ -97,7 +103,7 @@ if (cluster.isMaster) {
   }
 
   app.get("/", function(req, res) {
-    console.log("new connection at /")
+    log("new connection at /")
     res.render("index", {results: null})
   });
   app.get("/search", async (req, res, next) => {

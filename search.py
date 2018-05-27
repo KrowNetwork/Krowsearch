@@ -107,7 +107,7 @@ while True:
     # term = sys.stdin.readlines()
     # term = np.array(term)[0]
     term = input()
-    os.system("cls")
+    # os.system("cls")
     # print (term)
     vec_bow = dictionary.doc2bow(term.lower().split())
     vec_lsi = lsi[vec_bow]
