@@ -21,7 +21,7 @@ function log(message) {
 }
 
 if (cluster.isMaster) {
-  console.log(`Master ${process.pid} is running`);
+  console.log(`master ${process.pid} is running`);
 
   if (num_cpus < 4) {
     console.warn("worker count too low, attempting to increase worker count")
@@ -132,7 +132,7 @@ if (cluster.isMaster) {
     if (err) {
       throw err
     }
-    console.log(`Worker ${process.pid} started`);
+    console.log(`worker ${process.pid} started`);
 
   })
 }
