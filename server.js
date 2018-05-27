@@ -8,7 +8,10 @@ var cluster = require("cluster")
 var utf8 = require('utf8');
 var num_cpus = Math.floor(os.cpus().length / 2);
 
-// cluster.schedulingPolicy = 'rr'
+var osvar = process.platform;
+if (osvar != "win32") {
+  cluster.schedulingPolicy = 'rr'
+}
 
 var current_page = 1
 var full_res = ""

@@ -5,7 +5,12 @@ var os = require("os")
 var path = require("path")
 var utf8 = require('utf8');
 
-var python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname});
+var osvar = process.platform;
+if (osvar == "win32") {
+  var python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname});
+} else {
+  var python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname});
+}
 
 // app.engine('html', require('ejs').renderFile);
 // console.log(__dirname + '\\search.py')
