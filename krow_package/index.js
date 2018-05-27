@@ -5,20 +5,18 @@ var os = require("os")
 var path = require("path")
 var utf8 = require('utf8');
 
-var python = spawn('python', ['search.py'], {detached: true});
-
-
+var python = spawn('python', [__dirname + '\\search.py'], {detached: true});
 
 // app.engine('html', require('ejs').renderFile);
-
-exports.search = async function(req, res, page, callback) {
-  var query = req.query.q;
+console.log(__dirname + '\\search.py')
+exports.search = async function(query, page) {
+  // console.log(query)
   // current_page += 1;
   return new Promise(function(resolve, reject){
-
+    console.log("1");
     python.stdout.on('data', async (chunk) => {
       results = chunk.toString().split(" ");
-
+      console.log("2")
       json_res = results;
       var data = ""
       var results_num = (page - 1) * 10
@@ -31,7 +29,7 @@ exports.search = async function(req, res, page, callback) {
       // console.log(input)
        await process_ID(input)
         .then(function(result){
-          resolve(result.toString(), json_res)
+          resolve(result.toString())
           // log("processed results for term \"" + query + "\"")
         })
 
