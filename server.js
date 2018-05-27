@@ -7,6 +7,9 @@ var path = require("path")
 var cluster = require("cluster")
 var utf8 = require('utf8');
 var num_cpus = Math.floor(os.cpus().length / 2);
+if (num_cpus == 1) {
+  console.warn("cpu count too low, attempting to increase cpu usage to 2 ")
+}
 var express = require('express'),
   app = express(),
   port = process.env.PORT || 4200;
