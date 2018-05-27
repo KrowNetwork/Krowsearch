@@ -47,7 +47,7 @@ if (cluster.isMaster) {
 
       python.stdout.on('data', async (chunk) => {
         chunk = chunk.toString().split("'").join('"');
-        results = JSON.parse(chunk);
+        results = JSON.parse(JSON.stringify(chunk));
         json_res = results;
         console.log("recieved search results for query \"" + query + "\"");
         var data = ""
@@ -96,6 +96,7 @@ if (cluster.isMaster) {
   }
 
   app.get("/", function(req, res) {
+    console.log("new connection at /")
     res.render("index", {results: null})
   });
   app.get("/search", async (req, res, next) => {
