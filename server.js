@@ -19,10 +19,14 @@ var python = spawn('python', ['search.py'], {detached: true});
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
-  
-  if (num_cpus < 1) {
-    console.warn("worker count too low, attempting to increase worker count to 1  ")
-    num_cpus += 1
+
+  if (num_cpus < 4) {
+    console.warn("worker count too low, attempting to increase worker count")
+    if (os.cpus().length =< 4) {
+      num_cpus = 4
+    } else {
+      num_cpus = os.cpu().length
+    }
   }
   // Fork workers.
   for (let i = 0; i < num_cpus; i++) {
