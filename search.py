@@ -149,5 +149,6 @@ while True:
 
     # os.remove(parse_file)
     sys.stdout.flush()
+    os.system('cls')
     # with open(parse_file, "w") as f:
     #     f.write("succ")
