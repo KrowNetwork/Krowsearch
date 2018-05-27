@@ -131,22 +131,16 @@ while True:
         vals.append([vector_avg / count, i[0]])
 
     # print ("Processed all entries")
-    vals = normalize_differences(vals)
+    # vals = normalize_differences(vals)
     # print ("Normalized differences")
     sims = sorted(vals, key=lambda item: item[0])
 
     c = 0
     data = df["ID"][sims[0][1]] + ' '
-    for i in sims:
-        # print ("Company: %s" % df['company'][i[1]])
-        # print ("Title: %s" % df['title'][i[1]])
-        # print ("ID: %s" % df['ID'][i[1]])
-        # print ("Difference Score: %s" % sims[c][0])
-        # c += 1
-        # print ("")
-        # print ("")
+    for i in range(1, len(sims)):
 
-        data += df["ID"][i[1]] + ' '
+
+        data += df["ID"][sims[i][1]] + ' '
 
     # os.system('cls')
     # print (json.dumps(data))

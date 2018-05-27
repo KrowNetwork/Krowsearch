@@ -53,15 +53,15 @@ if (cluster.isMaster) {
         // results = JSON.parse(chunk)//JSON.stringify(chunk));
         // console.log("recieved results")
         // console.log(process)
-        log("recieved results")
+        // log("recieved results for term \"" + query + "\"")
 
         // console.log(results)
         json_res = results;
         var data = ""
-        var results_num = page * 10 - 1
-        // console.log(results_num)
+        var results_num = (page - 1) * 10
+        // console.log(page)
         var input = results[results_num] + " "
-        for (var i = results_num - 1; i >= results_num - 10; i --){
+        for (var i = results_num + 1; i <= results_num + 9; i++){
           // console.log()
           input += results[i] + " "
         }
@@ -69,12 +69,12 @@ if (cluster.isMaster) {
          await process_ID(input)
           .then(function(result){
             resolve(result.toString(), json_res)
-            log("processed results")
+            // log("processed results for term \"" + query + "\"")
           })
 
         // console.log(data);
       })
-      log("recieved search term \"" + query + "\"")
+      // log("recieved search term \"" + query + "\"")
       python.stdin.write(query + os.EOL);
       // python.stdin.write(os.EOL);
 
@@ -119,7 +119,9 @@ if (cluster.isMaster) {
       result = utf8.encode(result)
       res.render("index", {results: result})
       full_json = json_res
-      // res.end()
+      res.end();
+      res = null;
+      req = null;
     })
 
 
