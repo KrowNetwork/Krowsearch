@@ -33,7 +33,7 @@ if (cluster.isMaster) {
     }
   }
   // Fork workers.
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < num_cpus; i++) {
     cluster.fork();
   }
 
