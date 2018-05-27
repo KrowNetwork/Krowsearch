@@ -91,6 +91,8 @@ model = models.Word2Vec.load("models/model.w2v")
 
 index = similarities.MatrixSimilarity(lsi[corpus])
 # print ("Created similarity model")
+
+
 while True:
     # term = json.loads(sys.stdin.readlines()[0])
     # while True:
@@ -143,12 +145,12 @@ while True:
 
         data["%s" % c] = df["ID"][i[1]]
         c += 1
-
+    os.system('cls')
     # print (json.dumps(data))
     print (data)
 
     # os.remove(parse_file)
     sys.stdout.flush()
-    os.system('cls')
+    # os.system('cls')
     # with open(parse_file, "w") as f:
     #     f.write("succ")
