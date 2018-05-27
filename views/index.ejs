@@ -2,11 +2,21 @@
   <script type="text/javascript">
 
   </script>
-  <h1>Enter search term</h1>
+  <% if(results === null) { %>
+    <h1>Enter search term</h1>
+  <% } else if (results !== null) { %>
+    <h1>Results for "<%- term %>"</h1>
+  <% } %>
   <form method="get" action="/search">
     <input class="q tt-query" spellcheck="false" autocomplete="off" name="q" type="text" id="searchTerm"/>
     <input type="submit" value="Search" class="submitButton" id='search'>
   </form>
+    <% if(results !== null) { %>
+      <form action="/">
+        <input type="submit" value="Go Home" id='goHome'>
+      </form>
+    <% } %>
+
   <% if(results !== null) { %>
     <p><%- results %></p>
   <% } %>

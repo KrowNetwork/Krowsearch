@@ -104,7 +104,7 @@ if (cluster.isMaster) {
 
   app.get("/", function(req, res) {
     log("new connection at /")
-    res.render("index", {results: null})
+    res.render("index", {results: null, term: null})
   });
   app.get("/search", async (req, res, next) => {
     // res.writeHead(200,{"Content-Type" : "text/html"});
@@ -117,7 +117,7 @@ if (cluster.isMaster) {
     await search(req, res, page)
     .then(function (result, json_res){
       result = utf8.encode(result)
-      res.render("index", {results: result})
+      res.render("index", {results: result, term: req.query.q})
       full_json = json_res
       res.end();
       res = null;
