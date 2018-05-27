@@ -46,18 +46,18 @@ if (cluster.isMaster) {
     return new Promise(function(resolve, reject){
 
       python.stdout.on('data', async (chunk) => {
-        chunk = chunk.toString().split("'").join('"');
-        results = JSON.parse(chunk)//JSON.stringify(chunk));
+        results = chunk.toString().split(" ");
+        // results = JSON.parse(chunk)//JSON.stringify(chunk));
         console.log("recieved results")
         // console.log(results)
         json_res = results;
         var data = ""
         var results_num = page * 10 - 1
         // console.log(results_num)
-        var input = results[results_num.toString()] + " "
+        var input = results[results_num] + " "
         for (var i = results_num - 1; i >= results_num - 10; i --){
           // console.log()
-          input += results[i.toString()] + " "
+          input += results[i] + " "
         }
         // console.log(input)
          await process_ID(input)
