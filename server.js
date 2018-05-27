@@ -7,10 +7,7 @@ var path = require("path")
 var cluster = require("cluster")
 var utf8 = require('utf8');
 var num_cpus = Math.floor(os.cpus().length / 2);
-if (num_cpus < 1) {
-  console.warn("worker count too low, attempting to increase worker count to 1  ")
-  num_cpus += 1
-}
+
 var express = require('express'),
   app = express(),
   port = process.env.PORT || 4200;
@@ -22,7 +19,11 @@ var python = spawn('python', ['search.py'], {detached: true});
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
-
+  
+  if (num_cpus < 1) {
+    console.warn("worker count too low, attempting to increase worker count to 1  ")
+    num_cpus += 1
+  }
   // Fork workers.
   for (let i = 0; i < num_cpus; i++) {
     cluster.fork();
