@@ -7,11 +7,8 @@ var path = require("path")
 var cluster = require("cluster")
 var utf8 = require('utf8');
 var num_cpus = Math.floor(os.cpus().length / 2);
-var krow = require("krow_package")
 
-var express = require('express'),
-  app = express(),
-  port = process.env.PORT || 4200;
+// cluster.schedulingPolicy = 'rr'
 
 var current_page = 1
 var full_res = ""
@@ -33,11 +30,17 @@ if (cluster.isMaster) {
     }
   }
   // Fork workers.
-  for (let i = 0; i < num_cpus; i++) {
+  for (let i = 0; i < 4; i++) {
     cluster.fork();
   }
 
 } else {
+
+  var express = require('express'),
+    app = express(),
+    port = process.env.PORT || 4200;
+
+  var krow = require("krow_package/index.js")
 
   // app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'ejs')
@@ -57,17 +60,29 @@ if (cluster.isMaster) {
     }
 
       // page = 1
+    console.time("run time");
     await krow.search(req.query.q, page)
     .then(function (result){
+      // console.log(result)
+      //console.time("encode time")
       result = utf8.encode(result)
+      //console.timeEnd("encode time")
+      // console.log("x")
+      //console.time("render")
       res.render("index", {results: result, term: req.query.q})
+      //console.timeEnd('render')
       // full_json = json_res
       res.end();
-      res = null;
-      req = null;
-    })
-
+      // res = null;
+      // req = null;
       return next()
+
+    })
+    console.log(process.pid)
+    console.timeEnd("run time")
+    // console.log(process.memoryUsage())
+
+      // return next()
 
   });
   app.listen(port, function (err) {
