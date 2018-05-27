@@ -40,7 +40,7 @@ if (cluster.isMaster) {
         chunk = chunk.toString().split("'").join('"');
         results = JSON.parse(chunk);
         json_res = results;
-        // console.log(results);
+        console.log("recieved search results for query \"" + query + "\"");
         var data = ""
         var results_num = page * 10 - 1
         // console.log(results_num)
@@ -53,6 +53,7 @@ if (cluster.isMaster) {
          await process_ID(input)
           .then(function(result){
             resolve(result.toString(), json_res)
+            console.log("processed results")
           })
 
         // console.log(data);
