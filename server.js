@@ -47,9 +47,10 @@ if (cluster.isMaster) {
 
       python.stdout.on('data', async (chunk) => {
         chunk = chunk.toString().split("'").join('"');
-        results = JSON.parse(JSON.stringify(chunk));
+        results = JSON.parse(chunk)//JSON.stringify(chunk));
+        console.log("recieved results")
+        // console.log(results)
         json_res = results;
-        console.log("recieved search results for query \"" + query + "\"");
         var data = ""
         var results_num = page * 10 - 1
         // console.log(results_num)
