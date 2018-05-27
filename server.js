@@ -22,7 +22,7 @@ if (cluster.isMaster) {
 
   if (num_cpus < 4) {
     console.warn("worker count too low, attempting to increase worker count")
-    if (os.cpus().length =< 4) {
+    if (os.cpus().length <= 4) {
       num_cpus = 4
     } else {
       num_cpus = os.cpu().length
