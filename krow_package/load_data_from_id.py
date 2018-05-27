@@ -8,6 +8,7 @@ ids = ids.split()
 df = pd.read_csv("datasets/data2.csv")
 for i in ids:
     x = df.loc[df['ID'] == i]
-    print ("<p>TITLE: %s<br />" % x['title'])
-    print ("DESC: %s...</p>" % x['description'][:100])
+    # print (list(x["description"]))
+    print ("<p>TITLE: %s<br />" % list(x['title'])[0])
+    print ("DESC: %s...</p>" % list(x['description'])[0][:100])
 sys.stdout.flush()

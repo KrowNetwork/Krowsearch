@@ -55,7 +55,11 @@ exports.search = async function(query, page) {
 function process_ID(jobID) {
   // var send = results[i.toString()]
   //console.time('spawn')
-  var python2 = spawn('python', [__dirname + '\\load_data_from_id.py'], {detached: true, cwd: __dirname});
+  if (osvar == "win32") {
+    var python2 = spawn('python', [__dirname + '\\load_data_from_id.py'], {detached: true, cwd: __dirname});
+  } else {
+    var python2 = spawn('python', [__dirname + '/load_data_from_id.py'], {detached: true, cwd: __dirname});
+  }
   //console.timeEnd('spawn')
   return new Promise(function (resolve, reject){
     python2.stdout.on('data', async (chunk) =>{
