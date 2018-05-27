@@ -13,6 +13,8 @@ var express = require('express'),
 
 var current_page = 1
 var full_res = ""
+var python = spawn('python', ['search.py'], {detached: true});
+
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
@@ -30,7 +32,6 @@ if (cluster.isMaster) {
   app.use(bodyParser.json());
 
   async function search(req, res, page, callback) {
-    var python = spawn('python', ['search.py'], {detached: true});
     var query = req.query.q;
     // current_page += 1;
     return new Promise(function(resolve, reject){
@@ -102,7 +103,7 @@ if (cluster.isMaster) {
       // res.end()
     })
 
-    
+
 
 
       return next()
