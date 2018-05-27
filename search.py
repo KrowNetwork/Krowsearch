@@ -7,6 +7,8 @@ from datetime import datetime, date
 import dateparser
 import sys, os
 import json
+import warnings
+warnings.filterwarnings("ignore")
 
 write_file = "results.json"
 # print ("Yuh")
@@ -105,6 +107,7 @@ while True:
     # term = sys.stdin.readlines()
     # term = np.array(term)[0]
     term = input()
+    os.system("cls")
     # print (term)
     vec_bow = dictionary.doc2bow(term.lower().split())
     vec_lsi = lsi[vec_bow]
@@ -145,7 +148,7 @@ while True:
 
         data["%s" % c] = df["ID"][i[1]]
         c += 1
-    os.system('cls')
+    # os.system('cls')
     # print (json.dumps(data))
     print (data)
 
