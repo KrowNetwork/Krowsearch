@@ -57,6 +57,7 @@ if (cluster.isMaster) {
 
         // console.log(data);
       })
+      console.log("recieved search term \"" + query + "\"")
       python.stdin.write(query);
       python.stdin.write(os.EOL);
 
