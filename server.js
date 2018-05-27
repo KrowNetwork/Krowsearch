@@ -25,7 +25,7 @@ if (cluster.isMaster) {
     if (os.cpus().length >= 4) {
       num_cpus = 4
     } else {
-      num_cpus = os.cpu().length
+      num_cpus = os.cpus().length
     }
   }
   // Fork workers.
