@@ -9,7 +9,7 @@ var utf8 = require('utf8');
 var num_cpus = os.cpus().length;
 var express = require('express'),
   app = express(),
-  port = process.env.PORT || 3000;
+  port = process.env.PORT || 4200;
 
 var current_page = 1
 var full_res = ""
