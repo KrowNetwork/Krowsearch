@@ -61,6 +61,8 @@ if (cluster.isMaster) {
     if (page === undefined) {
       page = 1
     }
+    q = req.query.q.split(" ").join("+")
+    log("new connection at /search?q=" + q)
 
       // page = 1
     console.time("run time");
