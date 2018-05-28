@@ -54,7 +54,8 @@ if (cluster.isMaster) {
 
   app.get("/", function(req, res) {
     log("connection at /")
-    res.render("index", {results: null, term: null, resTime: null})
+    // res.render("index", {results: null, term: null, resTime: null})
+    res.send("test")
   });
   app.get("/search", async (req, res, next) => {
     // res.writeHead(200,{"Content-Type" : "text/html"});
