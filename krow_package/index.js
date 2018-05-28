@@ -46,6 +46,7 @@ exports.search = async function(query, page, useID) {
       }
     })
     python.stdin.write(query + os.EOL);
+    
   })
 
 }
