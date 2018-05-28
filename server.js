@@ -93,7 +93,7 @@ if (cluster.isMaster) {
       return next()
 
     })
-    console.log(process.pid)
+    // console.log(process.pid)
     // console.timeEnd("run time")
     // console.log(process.memoryUsage())
 
