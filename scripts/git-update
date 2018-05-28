@@ -15,4 +15,4 @@ cd $repodir
 git checkout $branch
 git pull
 
-scripts/startserver
+# scripts/startserver
