@@ -52,7 +52,7 @@ if (cluster.isMaster) {
 
 
   app.get("/", function(req, res) {
-    log("new connection at /")
+    log("connection at /")
     res.render("index", {results: null, term: null})
   });
   app.get("/search", async (req, res, next) => {
