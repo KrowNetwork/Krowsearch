@@ -10,7 +10,8 @@ var num_cpus = Math.floor(os.cpus().length / 2);
 
 var osvar = process.platform;
 if (osvar != "win32") {
-  cluster.schedulingPolicy = cluster.SCHED_RR
+  // cluster.schedulingPolicy = cluster.SCHED_RR
+  null
 }
 
 var current_page = 1
