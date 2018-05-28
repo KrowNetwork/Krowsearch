@@ -18,7 +18,8 @@ var full_res = ""
 // var python = spawn('python', ['search.py'], {detached: true});
 
 function log(message) {
-  console.log("worker " + process.pid + ": " + message)
+  var date = new Date(Date.now()).toLocaleString();
+  console.log(date.toString() + " - worker " + process.pid + ": " + message)
 }
 
 if (cluster.isMaster) {
