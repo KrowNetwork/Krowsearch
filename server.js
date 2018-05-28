@@ -54,7 +54,7 @@ if (cluster.isMaster) {
 
   app.get("/", function(req, res) {
     log("connection at /")
-    res.render("index", {results: null, term: null})
+    res.render("index", {results: null, term: null, resTime: null})
   });
   app.get("/search", async (req, res, next) => {
     // res.writeHead(200,{"Content-Type" : "text/html"});
@@ -69,8 +69,8 @@ if (cluster.isMaster) {
     log("connection at /search?q=" + q)
 
       // page = 1
-    var useID = true
-    console.time("run time");
+    var useID = false
+    var start = Date.now()
     await krow.search(req.query.q, page, useID)
     .then(function (result){
       // console.log(result)
@@ -83,7 +83,8 @@ if (cluster.isMaster) {
       //console.timeEnd("encode time")
       // console.log("x")
       //console.time("render")
-      res.render("index", {results: result, term: req.query.q})
+      var t = Date.now() - start
+      res.render("index", {results: result, term: req.query.q, resTime: t})
       //console.timeEnd('render')
       // full_json = json_res
       res.end();
@@ -93,7 +94,7 @@ if (cluster.isMaster) {
 
     })
     console.log(process.pid)
-    console.timeEnd("run time")
+    // console.timeEnd("run time")
     // console.log(process.memoryUsage())
 
       // return next()
