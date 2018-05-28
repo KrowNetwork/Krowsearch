@@ -18,7 +18,7 @@ var full_res = ""
 // var python = spawn('python', ['search.py'], {detached: true});
 
 function log(message) {
-  var date = new Date(Date.now()).toLocaleString();
+  var date = new Date(Date.now()).toLocaleString({timeZone: "America/New_York"});
   console.log(date.toString() + " - worker " + process.pid + ": " + message)
 }
 
