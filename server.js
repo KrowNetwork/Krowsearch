@@ -68,12 +68,17 @@ if (cluster.isMaster) {
     log("connection at /search?q=" + q)
 
       // page = 1
+    var useID = true
     console.time("run time");
-    await krow.search(req.query.q, page)
+    await krow.search(req.query.q, page, useID)
     .then(function (result){
       // console.log(result)
       //console.time("encode time")
-      result = utf8.encode(result)
+      if (!useID) {
+        result = utf8.encode(result)
+      } else {
+        result = result.toString()
+      }
       //console.timeEnd("encode time")
       // console.log("x")
       //console.time("render")
