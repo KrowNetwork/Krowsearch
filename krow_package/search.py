@@ -1,4 +1,9 @@
-import logging, gensim
+import warnings
+warnings.filterwarnings("ignore")
+warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
+
+
+import logging
 from gensim import similarities, corpora, models
 import pandas as pd
 import numpy as np
@@ -7,8 +12,7 @@ from datetime import datetime, date
 import dateparser
 import sys, os
 import json
-import warnings
-warnings.filterwarnings("ignore")
+import time
 
 write_file = "results.json"
 # print ("Yuh")
@@ -107,7 +111,7 @@ while True:
     # term = sys.stdin.readlines()
     # term = np.array(term)[0]
     term = input()
-    # os.system("cls")
+    # now = time.time()
     # print (term)
     vec_bow = dictionary.doc2bow(term.lower().split())
     vec_lsi = lsi[vec_bow]
@@ -145,9 +149,11 @@ while True:
     # os.system('cls')
     # print (json.dumps(data))
     print (data)
+    # print (time.time() - now)
 
     # os.remove(parse_file)
     sys.stdout.flush()
+    # time.sleep(3)
     # os.system('cls')
     # with open(parse_file, "w") as f:
     #     f.write("succ")

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#exit on fail
+set -e
+
+repodir="/home/ubuntu/Krowsearch/"
+
+branch="package"
+version="0"
+
+[ -n "$1" ] && branch="$1"
+
+cd $repodir
+
+git checkout $branch
+git pull
+
+# scripts/startserver
