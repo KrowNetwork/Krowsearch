@@ -1,8 +1,0 @@
-#!/bin/bash
-
-#exit on fail
-set -e
-
-screen -dm -S search npm run start
-
-echo "Please wait while the server gets setup"

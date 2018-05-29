@@ -1,6 +1,0 @@
-#!/bin/bash
-
-#exit on fail
-set -e
-
-screen -X -S search quit 2>/dev/null || true
