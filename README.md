@@ -1,4 +1,4 @@
-# Requirements:
+# Requirements
 NPM ^5.6.0<br />
 Python ^3.5<br />
 Pip<br />
