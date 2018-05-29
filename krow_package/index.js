@@ -12,6 +12,14 @@ if (osvar == "win32") {
   var python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname});
 }
 
+exports.reset_spawn = async function() {
+  if (osvar == "win32") {
+    var python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname});
+  } else {
+    var python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname});
+  }
+}
+
 exports.search = async function(query, page, useID) {
 
   return new Promise(function(resolve, reject){
@@ -46,7 +54,7 @@ exports.search = async function(query, page, useID) {
       }
     })
     python.stdin.write(query + os.EOL);
-    
+
   })
 
 }
