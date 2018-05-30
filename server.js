@@ -84,10 +84,10 @@ if (cluster.isMaster) {
       // console.log("x")
       //console.time("render")
       var t = Date.now() - start
-      res.render("index", {results: result, term: req.query.q, resTime: t})
+      // res.render("index", {results: result, term: req.query.q, resTime: t})
       //console.timeEnd('render')
       // full_json = json_res
-      res.end();
+      res.send(results);
       // res = null;
       // req = null;
 
@@ -95,6 +95,8 @@ if (cluster.isMaster) {
 
 
   });
+
+})
   app.listen(port, function (err) {
     if (err) {
       throw err
