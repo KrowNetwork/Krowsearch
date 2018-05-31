@@ -24,7 +24,7 @@ exports.search = async function(query, page, useID) {
 
   return new Promise(function(resolve, reject){
     python.stdout.on('data', async (chunk) => {
-      console.log(chunk)
+      console.log(chunk.toString())
       results = chunk.toString().split(" ");
       json_res = results;
       resolve(json_res)
