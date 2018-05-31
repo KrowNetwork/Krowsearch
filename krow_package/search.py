@@ -140,11 +140,10 @@ while True:
     sims = sorted(vals, key=lambda item: item[0])
 
     c = 0
-    data = df["ID"][sims[0][1]] + ' '
+    data = dict()
+    data["0"] = df["ID"][sims[0][1]]
     for i in range(1, len(sims)):
-
-
-        data += df["ID"][sims[i][1]] + ' '
+        data["%s" % i] += df["ID"][sims[i][1]]
 
     # os.system('cls')
     # print (json.dumps(data))
