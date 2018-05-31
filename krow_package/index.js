@@ -51,10 +51,10 @@ exports.search = async function(query, page, useID) {
   //           resolve(result.toString())
   //         })
   //     }
-  //   })
-  //   python.stdin.write(query + os.EOL);
+    })
+    python.stdin.write(query + os.EOL);
   //
-  // })
+  })
 
 }
 
