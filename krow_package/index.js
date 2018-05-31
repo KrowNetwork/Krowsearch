@@ -24,7 +24,7 @@ exports.search = async function(query, page, useID) {
 
   return new Promise(function(resolve, reject){
     python.stdout.on('data', async (chunk) => {
-      console.log(chunk.toString())
+      // console.log(chunk.toString())
       results = JSON.parse(chunk.toString().split("'").join('"'));
       json_res = results;
       resolve(json_res)
