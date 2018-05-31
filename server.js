@@ -64,7 +64,7 @@ if (cluster.isMaster) {
     var query = req.body.term;
     var key = req.query.key;
     if (key != API_KEY) {
-      res.send("invalid api key")
+      throw new error("API Key " + key + " is invalid")
     } else {
       // q = query.split(" ").join("+")
       // if (q.substring(q.length - 1) == "+") {
