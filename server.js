@@ -66,11 +66,11 @@ if (cluster.isMaster) {
     if (key != API_KEY) {
       res.send("invalid api key")
     } else {
-      q = req.query.q.split(" ").join("+")
-      if (q.substring(q.length - 1) == "+") {
-        q = q.substring(0, q.length - 1)
-      }
-      log("connection at /search?q=" + q)
+      // q = query.split(" ").join("+")
+      // if (q.substring(q.length - 1) == "+") {
+      //   q = q.substring(0, q.length - 1)
+      // }
+      // log("connection at /search?q=" + q)
 
         // page = 1
       var useID = false
