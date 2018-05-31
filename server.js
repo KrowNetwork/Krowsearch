@@ -13,6 +13,8 @@ if (osvar != "win32") {
   cluster.schedulingPolicy = cluster.SCHED_RR
 }
 
+var API_KEY = "42fc1e42-5eb8-4a8f-8904-7c58529f0f58";
+
 var current_page = 1
 var full_res = ""
 // var python = spawn('python', ['search.py'], {detached: true});
@@ -56,45 +58,48 @@ if (cluster.isMaster) {
     log("connection at /")
     res.render("index", {results: null, term: null, resTime: null})
   });
+
   app.get("/search", async (req, res, next) => {
     // res.writeHead(200,{"Content-Type" : "text/html"});
-    var page = req.query.page;
-    if (page === undefined) {
-      page = 1
-    }
-    q = req.query.q.split(" ").join("+")
-    if (q.substring(q.length - 1) == "+") {
-      q = q.substring(0, q.length - 1)
-    }
-    log("connection at /search?q=" + q)
-
-      // page = 1
-    var useID = false
-    var start = Date.now()
-    await krow.search(req.query.q, page, useID)
-    .then(function (result){
-      // console.log(result)
-      //console.time("encode time")
-      if (!useID) {
-        result = utf8.encode(result)
-      } else {
-        result = result.toString()
+    var query = req.body.term;
+    var key = req.query.key;
+    if (key != API_KEY) {
+      res.send("invalid api key")
+    } else {
+      q = req.query.q.split(" ").join("+")
+      if (q.substring(q.length - 1) == "+") {
+        q = q.substring(0, q.length - 1)
       }
-      //console.timeEnd("encode time")
-      // console.log("x")
-      //console.time("render")
-      var t = Date.now() - start
-      // res.render("index", {results: result, term: req.query.q, resTime: t})
-      //console.timeEnd('render')
-      // full_json = json_res
-      res.send(results);
-      // res = null;
-      // req = null;
+      log("connection at /search?q=" + q)
 
-      return next()
+        // page = 1
+      var useID = false
+      var start = Date.now()
+      await krow.search(query, page, useID)
+      .then(function (result){
+        // console.log(result)
+        //console.time("encode time")
+        if (!useID) {
+          result = utf8.encode(result)
+        } else {
+          result = result.toString()
+        }
+        //console.timeEnd("encode time")
+        // console.log("x")
+        //console.time("render")
+        var t = Date.now() - start
+        // res.render("index", {results: result, term: req.query.q, resTime: t})
+        //console.timeEnd('render')
+        // full_json = json_res
+        res.send(results);
+        // res = null;
+        // req = null;
 
+        return next()
+    });
+    }
+    // var page = req.query.page;
 
-  });
 
 })
   app.listen(port, function (err) {
