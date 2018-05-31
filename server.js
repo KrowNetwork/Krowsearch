@@ -80,7 +80,7 @@ if (cluster.isMaster) {
 
       await krow.search(query, 1, useID)
       .then(function (result){
-        // console.log(result)
+        console.log(result)
         //console.time("encode time")
 
         // if (!useID) {
