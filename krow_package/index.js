@@ -20,7 +20,7 @@ exports.reset_spawn = async function() {
   }
 }
 
-exports.search = async function(query, page, useID) {
+exports.search = async function(query) {
 
   return new Promise(function(resolve, reject){
     python.stdout.on('data', async (chunk) => {
@@ -28,30 +28,6 @@ exports.search = async function(query, page, useID) {
       results = JSON.parse(chunk.toString().split("'").join('"'));
       json_res = results;
       resolve(json_res)
-      // var data = ""
-      // var results_num = (page - 1) * 10
-
-
-  //     if (useID == true) {
-  //       var input = [results[results_num]]
-  //
-  //       for (var i = results_num + 1; i <= results_num + 9; i++){
-  //         input.push(results[i])
-  //       }
-  //       resolve(input)
-  //
-  //     } else {
-  //
-  //       var input = results[results_num] + " "
-  //
-  //       for (var i = results_num + 1; i <= results_num + 9; i++){
-  //         input += results[i] + " "
-  //       }
-  //       await process_ID(input, useID)
-  //         .then(function(result){
-  //           resolve(result.toString())
-  //         })
-  //     }
     })
     python.stdin.write(query + os.EOL);
   //

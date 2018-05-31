@@ -48,60 +48,35 @@ if (cluster.isMaster) {
 
   var krow = require("krow_package/index.js")
 
-  // app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'ejs')
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json());
   app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
   });
 
   app.get("/search", async (req, res, next) => {
-    // res.writeHead(200,{"Content-Type" : "text/html"});
     var query = req.body.term;
     var key = req.query.key;
     if (key != API_KEY) {
       throw new error("API Key " + key + " is invalid")
     } else {
-      // q = query.split(" ").join("+")
-      // if (q.substring(q.length - 1) == "+") {
-      //   q = q.substring(0, q.length - 1)
-      // }
-      // log("connection at /search?q=" + q)
 
-        // page = 1
       var useID = true
       var start = Date.now()
 
-// TODO: remove page
-
-      await krow.search(query, 1, useID)
+      await krow.search(query)
       .then(function (result){
-        // console.log(result)
-        //console.time("encode time")
 
-        // if (!useID) {
-        //   result = utf8.encode(result)
-        // } else {
-        //   result = result.toString()
-        // }
-        //console.timeEnd("encode time")
-        // console.log("x")
-        //console.time("render")
         var t = Date.now() - start
-        // res.render("index", {results: result, term: req.query.q, resTime: t})
-        //console.timeEnd('render')
-        // full_json = json_res
+
         res.send(results);
-        // res = null;
-        // req = null;
 
         return next()
     });
     }
-    // var page = req.query.page;
 
 
 })
