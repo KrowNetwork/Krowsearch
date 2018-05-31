@@ -5,7 +5,7 @@ set -e
 
 repodir="/home/ubuntu/Krowsearch/"
 
-branch="package"
+branch="master"
 version="0"
 
 [ -n "$1" ] && branch="$1"
