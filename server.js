@@ -73,7 +73,7 @@ if (cluster.isMaster) {
       // log("connection at /search?q=" + q)
 
         // page = 1
-      var useID = false
+      var useID = true
       var start = Date.now()
 
 // TODO: remove page

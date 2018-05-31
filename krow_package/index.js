@@ -45,7 +45,6 @@ exports.search = async function(query, page, useID) {
 
         for (var i = results_num + 1; i <= results_num + 9; i++){
           input += results[i] + " "
-
         }
         await process_ID(input, useID)
           .then(function(result){
