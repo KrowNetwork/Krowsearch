@@ -143,7 +143,7 @@ while True:
     data = dict()
     data["0"] = df["ID"][sims[0][1]]
     for i in range(1, len(sims)):
-        data["%s" % i] += df["ID"][sims[i][1]]
+        data["%s" % i] = df["ID"][sims[i][1]]
 
     # os.system('cls')
     # print (json.dumps(data))
