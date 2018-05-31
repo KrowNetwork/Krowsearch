@@ -2,3 +2,4 @@
 krow_jobs/
 node_modules
 Krow/__pycache__
+.ftpconfig
