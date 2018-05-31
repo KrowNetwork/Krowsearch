@@ -75,10 +75,14 @@ if (cluster.isMaster) {
         // page = 1
       var useID = false
       var start = Date.now()
-      await krow.search(query, page, useID)
+
+// TODO: remove page
+
+      await krow.search(query, 1, useID)
       .then(function (result){
         // console.log(result)
         //console.time("encode time")
+
         if (!useID) {
           result = utf8.encode(result)
         } else {
