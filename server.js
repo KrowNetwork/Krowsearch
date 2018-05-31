@@ -83,11 +83,11 @@ if (cluster.isMaster) {
         // console.log(result)
         //console.time("encode time")
 
-        if (!useID) {
-          result = utf8.encode(result)
-        } else {
-          result = result.toString()
-        }
+        // if (!useID) {
+        //   result = utf8.encode(result)
+        // } else {
+        //   result = result.toString()
+        // }
         //console.timeEnd("encode time")
         // console.log("x")
         //console.time("render")
