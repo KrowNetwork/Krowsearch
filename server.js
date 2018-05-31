@@ -53,12 +53,6 @@ if (cluster.isMaster) {
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json());
 
-
-  app.get("/", function(req, res) {
-    log("connection at /")
-    res.render("index", {results: null, term: null, resTime: null})
-  });
-
   app.get("/search", async (req, res, next) => {
     // res.writeHead(200,{"Content-Type" : "text/html"});
     var query = req.body.term;
