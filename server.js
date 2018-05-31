@@ -58,13 +58,14 @@ if (cluster.isMaster) {
   });
 
   app.get("/search", async (req, res, next) => {
-    var query = req.body.term;
+    var query = req.query.term;
     var key = req.query.key;
+
     if (key != API_KEY) {
       throw new Error("API Key " + key + " is invalid. Contact Tucker to clear the issue up")
       res.end()
     } else {
-
+      log(key + ": " + query)
       await krow.search(query)
 
       .then(function (result){
