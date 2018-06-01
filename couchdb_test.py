@@ -5,7 +5,7 @@ for dbname in db:
     print(dbname)
 db = db['composerchannel_krow']
 for i in db.view("_all_docs"):
-    if ("Asset:network.krow.assets.Job" in i['id'] and "c5b8f44a-d818-48c7-b301-805bae81007d" in i['id']):
+    if ("\x00Asset:network.krow.assets.Job\x00c5b8f44a-d818-48c7-b301-805bae81007d\x00" in i['id']):
         print (i)
         print (db.get(i['id']))
 # for i in db(params={'key': 'Asset'}):
