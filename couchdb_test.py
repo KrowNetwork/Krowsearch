@@ -1,3 +1,3 @@
 import couchdb
 
-db = chouchdb.server("http://localhost:4369")
+db = couchdb.server("http://localhost:4369")
