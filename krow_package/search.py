@@ -84,6 +84,7 @@ def normalize_differences(diffs):
 
 
 
+
 parser = argparse.ArgumentParser(description='search')
 parser.add_argument('--title',
                     help='job title to search for', default="")
