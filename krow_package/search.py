@@ -149,15 +149,15 @@ while True:
     sims = sorted(vals, key=lambda item: item[0])
 
     c = 0
-    data = dict()
-    data["0"] = df["ID"][sims[0][1]]
+    # data = dict()
+    data = str(df["ID"][sims[0][1]]) + " "
     for i in range(1, len(sims)):
-
+        data += str(df["ID"][sims[i][1]]) + " "
         # for i in db.view("_all_docs"):
         #     if ("c5b8f44a-d818-48c7-b301-805bae81007d" in i['id']):
         #         print (i)
         #         print (db.get(i['id']))
-        data["%s" % i] = df["ID"][sims[i][1]]
+        # data["%s" % i] = df["ID"][sims[i][1]]
 
     # os.system('cls')
     # print (json.dumps(data))

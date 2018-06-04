@@ -12,6 +12,12 @@ if (osvar == "win32") {
   var python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname});
 }
 
+if (osvar == "win32") {
+  var python2 = spawn('python', [__dirname + '\\get_data.py'], {detached: true, cwd: __dirname});
+} else {
+  var python2 = spawn('python', [__dirname + '/get_data.py'], {detached: true, cwd: __dirname});
+}
+
 exports.reset_spawn = async function() {
   if (osvar == "win32") {
     var python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname});
@@ -25,9 +31,21 @@ exports.search = async function(query) {
   return new Promise(function(resolve, reject){
     python.stdout.on('data', async (chunk) => {
       // console.log(chunk.toString())
-      results = JSON.parse(chunk.toString().split("'").join('"'));
+      // results = JSON.parse(chunk.toString().split("'").join('"'));
+      results = chunk.toString()
       json_res = results;
-      resolve(json_res)
+      arr = []
+      // console.log(json_res)
+      // console.log(json_res['0'])
+      // console.time("t")
+      await process_ID(results)
+        .then(function (result){
+          // console.timeEnd("t")
+
+          resolve(result)
+        });
+      // console.log(arr)
+
     })
     python.stdin.write(query + os.EOL);
   //
@@ -38,11 +56,7 @@ exports.search = async function(query) {
 
 
 function process_ID(jobID) {
-  if (osvar == "win32") {
-    var python2 = spawn('python', [__dirname + '\\load_data_from_id.py'], {detached: true, cwd: __dirname});
-  } else {
-    var python2 = spawn('python', [__dirname + '/load_data_from_id.py'], {detached: true, cwd: __dirname});
-  }
+
   return new Promise(function (resolve, reject){
     python2.stdout.on('data', async (chunk) =>{
       resolve(chunk)
@@ -50,9 +64,9 @@ function process_ID(jobID) {
     python2.stderr.on("data", async (chunk) => {
       console.log(chunk.toString())
     })
-    python2.stdin.write(jobID);
-    python2.stdin.write(os.EOL);
-    python2.stdin.end();
+    python2.stdin.write(jobID + os.EOL);
+    // python2.stdin.write();
+    // python2.stdin.end();
   })
 
 }
