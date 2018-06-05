@@ -34,7 +34,7 @@ exports.search = async function(query) {
       // results = JSON.parse(chunk.toString().split("'").join('"'));
       results = chunk
       // json_res = results;
-      arr = []
+      // arr = []
       // console.log(json_res)
       // console.log(json_res['0'])
       // console.time("t")
@@ -62,7 +62,8 @@ function process_ID(jobID) {
       resolve(chunk)
     })
     python2.stderr.on("data", async (chunk) => {
-      console.log(chunk.toString())
+      // console.log()
+      reject(chunk.toString())
     })
     python2.stdin.write(jobID + os.EOL);
     // python2.stdin.write();
