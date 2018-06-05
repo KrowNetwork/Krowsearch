@@ -62,7 +62,7 @@ if (cluster.isMaster) {
     var key = req.query.key;
 
     if (key != API_KEY) {
-      throw new Error("API Key " + key + " is invalid. Contact Tucker to clear the issue up")
+      throw new Error("API Key " + key + " is invalid. Contact Tucker to clear the issue")
       res.end()
     } else {
       log(key + ": " + query)

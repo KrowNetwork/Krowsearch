@@ -13,9 +13,9 @@ if (osvar == "win32") {
 }
 
 if (osvar == "win32") {
-  var python2 = spawn('python', [__dirname + '\\get_data.py'], {detached: true, cwd: __dirname});
+  var python2 = spawn('python', [__dirname + '\\get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
 } else {
-  var python2 = spawn('python', [__dirname + '/get_data.py'], {detached: true, cwd: __dirname});
+  var python2 = spawn('python', [__dirname + '/get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
 }
 
 exports.reset_spawn = async function() {
