@@ -15,7 +15,7 @@ while True:
     id = input()
     # print (i)
     x = ""
-    for i in id.split()[:-1]:
+    for i in id.split():
         x += (str(n[i]) + ",")
 
     print (x)
