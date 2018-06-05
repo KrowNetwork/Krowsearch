@@ -70,7 +70,7 @@ if (cluster.isMaster) {
 
       .then(function (result){
         console.log(result.toString())
-        res.send(result);
+        res.send(result.toString());
         return next()
     });
 
