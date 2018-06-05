@@ -32,7 +32,7 @@ exports.search = async function(query) {
     python.stdout.on('data', async (chunk) => {
       // console.log(chunk.toString())
       // results = JSON.parse(chunk.toString().split("'").join('"'));
-      results = chunk()
+      results = chunk
       // json_res = results;
       arr = []
       // console.log(json_res)
