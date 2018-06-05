@@ -19,5 +19,4 @@ while True:
         x += (str(n[i]) + ",")
 
     print (x)
-
     sys.stdout.flush()

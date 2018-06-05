@@ -100,7 +100,7 @@ async def search(term):
     sims = index[vec_lsi]
     sims = sorted(enumerate(sims), key=lambda item: -item[1])
 
-    top = sims[:100]
+    top = sims[:1]
     vals = []
     today = date.today()
     if args.t:
