@@ -13,27 +13,18 @@ import dateparser
 import sys, os
 import json
 import time
-
-# db = couchdb.Server("http://localhost:5984")
-# db = db['composerchannel_krow']
-# for i in db.view("_all_docs"):
-#     if ("Asset:network.krow.assets.Job" in i['id'] and "c5b8f44a-d818-48c7-b301-805bae81007d" in i['id']):
-#         print (i)
-#         print (db.get(i['id']))
+import asyncio
+loop = asyncio.get_event_loop()
 
 
 write_file = "results.json"
-# print ("Yuh")
-# sys.stdout.flush()
-# exit()
-# with open(parse_file, "w") as f:
-#     f.write("succ")
+
 def parse_date(date):
     return dateparser.parse(date).date()
 
-def get_sentence_difference(sent_1, sent_2, model):
-    sent_list_1 = str(sent_1).split()
-    sent_list_2 = str(sent_2).split()
+async def get_sentence_difference(sent_1, sent_2, model, vector_avg):
+    sent_list_1 = str(sent_1.lower()).split()
+    sent_list_2 = str(sent_2.lower()).split()
     s1_use = 0
     s2_use = 0
 
@@ -42,7 +33,7 @@ def get_sentence_difference(sent_1, sent_2, model):
 
     for word in sent_list_1:
         try:
-            word = word.lower()
+            # word = word.lower()
             sent_sum_1 = np.add(np.array(model.wv[word]), sent_sum_1)
             s1_use += 1
         except:
@@ -50,15 +41,16 @@ def get_sentence_difference(sent_1, sent_2, model):
 
     for word in sent_list_2:
         try:
-            word = word.lower()
+            # word = word.lower()
             sent_sum_2 = np.add(np.array(model.wv[word]), sent_sum_2)
             s2_use += 1
 
         except:
             pass
 
-    x =  np.absolute(np.subtract(sent_sum_1 / s1_use, sent_sum_2 / s2_use))
-    return sum(x)/len(x)
+    x = np.absolute(np.subtract(sent_sum_1 / s1_use, sent_sum_2 / s2_use))
+    vector_avg += sum(x)/len(x)
+    return vector_avg
 
 def company_similarity_scorer(sent_1, sent_2):
     sent_1 = str(sent_1).lower()
@@ -82,14 +74,79 @@ def normalize_differences(diffs):
 
     return new
 
+async def calc(i):
+    count = 1
+    vector_avg = i[1]
+    if term != "":
+        vector_avg = await get_sentence_difference(term, df['description'][i[0]], model, vector_avg)
+        vector_avg = await get_sentence_difference(term, df['title'][i[0]], model, vector_avg)
+        count += 2
 
+    return vector_avg / count
+
+async def iterate_data(data):
+    for i in data:
+        yield i
+        # await asyncio.sleep(0.5)
+
+async def search(term):
+    if args.t:
+        now = time.time()
+    # now = time.time()
+    # print (term)
+    vec_bow = dictionary.doc2bow(term.lower().split())
+    vec_lsi = lsi[vec_bow]
+
+    sims = index[vec_lsi]
+    sims = sorted(enumerate(sims), key=lambda item: -item[1])
+
+    top = sims#[:1000]
+    vals = []
+    today = date.today()
+    if args.t:
+        loop_now = time.time()
+    async for i in iterate_data(top):
+        # i = top[u]
+        vals.append([await calc(i), i[0]])
+    if args.t:
+        loop_now = time.time() - loop_now
+    # tasks = [calc(term, i, model) for i in top]
+    # x = await asyncio.wait(tasks)
+    # print (tasks)
+
+    # vals = await asyncio.gather(*[calc(term, i, model) for i in top])
+
+
+    # print ("Processed all entries")
+    # vals = normalize_differences(vals)
+    # print ("Normalized differences")
+    sims = sorted(vals, key=lambda item: item[0])
+
+    c = 0
+    # data = dict()
+    data = str(df["ID"][sims[0][1]]) + " "
+    for i in range(1, len(sims)):
+        data += str(df["ID"][sims[i][1]]) + " "
+        # for i in db.view("_all_docs"):
+        #     if ("c5b8f44a-d818-48c7-b301-805bae81007d" in i['id']):
+        #         print (i)
+        #         print (db.get(i['id']))
+        # data["%s" % i] = df["ID"][sims[i][1]]
+    # os.system('cls')
+    # print (json.dumps(data))
+    print (data)
+    fin = time.time()
+    if args.t:
+        print ("Total Time: %s" % (fin - now))
+        print ("Loop time: %s" % (loop_now))
+    # print (time.time() - now)
+
+    # os.remove(parse_file)
+    sys.stdout.flush()
 
 
 parser = argparse.ArgumentParser(description='search')
-parser.add_argument('--title',
-                    help='job title to search for', default="")
-parser.add_argument('--company',
-                    help='company to search for', default=None)
+parser.add_argument('-t', action='store_true')
 args = parser.parse_args()
 
 df = pd.read_csv('datasets/data2.csv')
@@ -119,53 +176,10 @@ while True:
     #         pass
     # term = sys.stdin.readlines()
     # term = np.array(term)[0]
+
     term = input()
-    # now = time.time()
-    # print (term)
-    vec_bow = dictionary.doc2bow(term.lower().split())
-    vec_lsi = lsi[vec_bow]
-
-    sims = index[vec_lsi]
-    sims = sorted(enumerate(sims), key=lambda item: -item[1])
-
-    top = sims#[:1000]
-    vals = []
-    today = date.today()
-    for i in top:
-        count = 1
-        vector_avg = i[1]
-        if term != "":
-            vector_avg += get_sentence_difference(term, df['description'][i[0]], model)
-            vector_avg += get_sentence_difference(term, df['title'][i[0]], model)
-            count += 2
-        if args.company != None:
-            vector_avg += company_similarity_scorer(args.company, df['company'][i[0]])
-            count += 1
-        vals.append([vector_avg / count, i[0]])
-
-    # print ("Processed all entries")
-    # vals = normalize_differences(vals)
-    # print ("Normalized differences")
-    sims = sorted(vals, key=lambda item: item[0])
-
-    c = 0
-    # data = dict()
-    data = str(df["ID"][sims[0][1]]) + " "
-    for i in range(1, len(sims)):
-        data += str(df["ID"][sims[i][1]]) + " "
-        # for i in db.view("_all_docs"):
-        #     if ("c5b8f44a-d818-48c7-b301-805bae81007d" in i['id']):
-        #         print (i)
-        #         print (db.get(i['id']))
-        # data["%s" % i] = df["ID"][sims[i][1]]
-
-    # os.system('cls')
-    # print (json.dumps(data))
-    print (data)
-    # print (time.time() - now)
-
-    # os.remove(parse_file)
-    sys.stdout.flush()
+    # asyncio.ensure_future()
+    loop.run_until_complete(search(term))
     # time.sleep(3)
     # os.system('cls')
     # with open(parse_file, "w") as f:

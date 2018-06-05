@@ -16,6 +16,6 @@ while True:
     # print (i)
     x = ""
     for i in id.split()[:-1]:
-        x += (str(n[i]) + " ")
+        x += (str(n[i]) + ",")
 
     print (x)
