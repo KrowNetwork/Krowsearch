@@ -7,9 +7,9 @@ var utf8 = require('utf8');
 
 var osvar = process.platform;
 if (osvar == "win32") {
-  var python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname});
+  var python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
 } else {
-  var python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname});
+  var python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
 }
 
 if (osvar == "win32") {
