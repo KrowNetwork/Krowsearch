@@ -32,8 +32,8 @@ exports.search = async function(query) {
     python.stdout.on('data', async (chunk) => {
       // console.log(chunk.toString())
       // results = JSON.parse(chunk.toString().split("'").join('"'));
-      results = chunk.toString()
-      json_res = results;
+      results = chunk()
+      // json_res = results;
       arr = []
       // console.log(json_res)
       // console.log(json_res['0'])
@@ -59,7 +59,7 @@ function process_ID(jobID) {
 
   return new Promise(function (resolve, reject){
     python2.stdout.on('data', async (chunk) =>{
-      resolve(chunk.toString())
+      resolve(chunk)
     })
     python2.stderr.on("data", async (chunk) => {
       console.log(chunk.toString())
