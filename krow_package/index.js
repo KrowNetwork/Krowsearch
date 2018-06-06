@@ -30,25 +30,15 @@ exports.search = async function(query) {
 
   return new Promise(function(resolve, reject){
     python.stdout.on('data', async (chunk) => {
-      // console.log(chunk.toString())
-      // results = JSON.parse(chunk.toString().split("'").join('"'));
+
       results = chunk
-      // json_res = results;
-      // arr = []
-      // console.log(json_res)
-      // console.log(json_res['0'])
-      // console.time("t")
+
       await process_ID(results)
         .then(function (result){
-          // console.timeEnd("t")
-
           resolve(result)
         });
-      // console.log(arr)
-
     })
     python.stdin.write(query + os.EOL);
-  //
   })
 
 }
@@ -59,16 +49,13 @@ function process_ID(jobID) {
 
   return new Promise(function (resolve, reject){
     python2.stdout.on('data', async (chunk) =>{
-      // console.log(chunk.toString())
       resolve(chunk)
     })
     python2.stderr.on("data", async (chunk) => {
-      // console.log()
       reject(chunk.toString())
     })
     python2.stdin.write(jobID + os.EOL);
-    // python2.stdin.write();
-    // python2.stdin.end();
+
   })
 
 }
