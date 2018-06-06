@@ -18,5 +18,5 @@ while True:
     for i in id.split():
         x += (str(n[i]) + ",")
 
-    sys.stdout.write(x)
+    sys.stdout.write(x[:-1])
     sys.stdout.flush()
