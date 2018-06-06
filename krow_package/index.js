@@ -20,9 +20,9 @@ if (osvar == "win32") {
 
 exports.reset_spawn = async function() {
   if (osvar == "win32") {
-    var python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname});
+    var python2 = spawn('python', [__dirname + '\\get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
   } else {
-    var python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname});
+    var python2 = spawn('python', [__dirname + '/get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
   }
 }
 
