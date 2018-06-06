@@ -17,7 +17,6 @@ var API_KEY = "42fc1e42-5eb8-4a8f-8904-7c58529f0f58";
 
 var current_page = 1
 var full_res = ""
-// var python = spawn('python', ['search.py'], {detached: true});
 
 function log(message) {
   var date = new Date(Date.now()).toLocaleString({timeZone: "America/New_York"});
@@ -69,7 +68,6 @@ if (cluster.isMaster) {
       await krow.search(query)
 
       .then(function (result){
-        // console.log(result.toString())
         res.send(result);
         return next()
     });
