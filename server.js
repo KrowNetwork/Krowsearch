@@ -68,6 +68,7 @@ if (cluster.isMaster) {
       await krow.search(query)
 
       .then(function (result){
+        // console.log(result.toString())
         res.send(result);
         return next()
     });

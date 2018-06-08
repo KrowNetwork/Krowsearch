@@ -49,6 +49,8 @@ function process_ID(jobID) {
 
   return new Promise(function (resolve, reject){
     python2.stdout.on('data', async (chunk) =>{
+      chunk = chunk.toString().substring(0, chunk.length - 4)
+      console.log(chunk.toString())
       resolve(chunk)
     })
     python2.stderr.on("data", async (chunk) => {

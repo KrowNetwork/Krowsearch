@@ -9,3 +9,4 @@ r = requests.get("http://localhost:4200/search?key=42fc1e42-5eb8-4a8f-8904-7c585
 print (r)
 print (r.text)
 print (time.time() - now)
+print (r.json())
