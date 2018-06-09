@@ -53,6 +53,7 @@ if (cluster.isMaster) {
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Content-Length", "262144");
     next();
   });
 
@@ -69,7 +70,8 @@ if (cluster.isMaster) {
 
       .then(function (result){
         // console.log(result.toString())
-        res.send(result);
+        res.write(result);
+        res.end()
         return next()
     });
 
