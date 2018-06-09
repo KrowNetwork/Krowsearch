@@ -58,6 +58,7 @@ if (cluster.isMaster) {
   });
 
   app.get("/search", async (req, res, next) => {
+
     var query = req.query.term;
     var key = req.query.key;
 
@@ -70,6 +71,7 @@ if (cluster.isMaster) {
 
       .then(function (result){
         // console.log(result.toString())
+        res.header("Content-Length", result.toString().length+'')
         res.write(result);
         res.end()
         return next()
