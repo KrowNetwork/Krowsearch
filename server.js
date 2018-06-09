@@ -67,11 +67,11 @@ if (cluster.isMaster) {
     var query = req.query.term;
     var key = req.query.key;
 
-    if (key != API_KEY) {
+    if (KEYS[key] === undefined) {
       throw new Error("API Key " + key + " is invalid. Contact Tucker to clear the issue")
       res.end()
     } else {
-      log(key + ": " + query)
+      log(key + "[" + KEYS[key] + "]: " + query)
       await krow.search(query)
 
       .then(function (result){
