@@ -82,7 +82,7 @@ if (cluster.isMaster) {
         // console.log(result.toString())
         // res.header("Content-Length", result.length+'')
         // console.log(result.length)
-        res.write(result)//.toString().trim());
+        res.write(result.toString())//.toString().trim());
         res.end()
         return next()
     });
