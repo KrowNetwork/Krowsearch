@@ -10,6 +10,7 @@ def special_print(p):
     pp = "{"
     for i in p:
         pp += "\"%s\": %s," % (i, p[i])
+    # pp = pp + "}"
     pp = pp[:-1] + "}"
     return pp 
 

@@ -134,7 +134,7 @@ async def search(term):
         # data["%s" % i] = df["ID"][sims[i][1]]
     # os.system('cls')
     # print (json.dumps(data))
-    print (data)
+    print (data[:-1])
     fin = time.time()
     if args.t:
         print ("Total Time: %s" % (fin - now))
