@@ -15,6 +15,11 @@ if (osvar != "win32") {
 
 var API_KEY = "42fc1e42-5eb8-4a8f-8904-7c58529f0f58";
 
+var KEYS = {
+  "42fc1e42-5eb8-4a8f-8904-7c58529f0f58": "nik/frontend",
+  "dgf463d4-4fg5-55la-3z0f-7c78ft9s9z64": "tucker"
+}                                    
+
 var current_page = 1
 var full_res = ""
 
