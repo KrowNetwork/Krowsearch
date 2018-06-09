@@ -80,14 +80,16 @@ if (cluster.isMaster) {
 
       .then(function (result){
         // console.log(result.toString())
-        // res.header("Content-Length", result.length+'')
+        // res.header("Content-Length", result.toString().length+'')
+        // res.header("Content-Length", "262144");
+
         // console.log(result.length)
         // result = result.toString().split("~+/=")
         // for (var i = 0; i < result.length; i ++) {
         //   res.write(result[i].toString())
         // }
-        res.write(result)//.toString().trim());
-        // res.end()
+        res.write(result.toString())//.toString().trim());
+        res.end()
         return next()
     });
 
