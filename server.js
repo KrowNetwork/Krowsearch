@@ -80,7 +80,7 @@ if (cluster.isMaster) {
 
       .then(function (result){
         // console.log(result.toString())
-        res.header("Content-Length", result.toString().length+'')
+        res.header("Content-Length", result.toString().length*2+'')
         res.write(result)//.toString().trim());
         res.end()
         return next()
