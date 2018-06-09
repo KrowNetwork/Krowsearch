@@ -184,3 +184,5 @@ while True:
     # os.system('cls')
     # with open(parse_file, "w") as f:
     #     f.write("succ")
+    # sys.stdout.flush()
+

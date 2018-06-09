@@ -5,6 +5,10 @@ var os = require("os")
 var path = require("path")
 var utf8 = require('utf8');
 
+var events = require('events');
+var eventEmitter = new events.EventEmitter();
+eventEmitter.setMaxListeners(1000)
+
 var osvar = process.platform;
 if (osvar == "win32") {
   var python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
@@ -49,13 +53,11 @@ function process_ID(jobID) {
 
   return new Promise(function (resolve, reject){
     python2.stdout.on('data', async (chunk) =>{
-      if (osvar == "win32") {
-        chunk = chunk.toString().substring(0, chunk.length - 4)
-      } else {
-        chunk = chunk.toString().substring(0, chunk.length)
-      } 
+      // if (osvar == "win32") {
+      //   chunk = chunk.toString().substring(0, chunk.length - 4)
+      // } 
       // console.log(chunk.toString())
-      resolve(chunk)
+      resolve(chunk)//.split("+="))
     })
     python2.stderr.on("data", async (chunk) => {
       reject(chunk.toString())
