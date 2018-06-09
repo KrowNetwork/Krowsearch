@@ -11,7 +11,8 @@ def special_print(p):
     for i in p:
         pp += "\"%s\": %s," % (i, p[i])
     pp = pp[:-1] + "}"
-    print (pp)
+    return pp 
+
 for i in json.loads(r.text):
     x = json.dumps(i)
     # print (x)
@@ -30,5 +31,11 @@ while True:
 
     # sys.stdout.write#(json.dumps(x))#.encode( "utf-8"))
     # print(json.dumps(str(x)))#.encode( "utf-8"))
-    special_print(x)
+    
+    x = special_print(x)
+    try:
+        json.loads(x)
+        print (x)
+    except:
+        print (x[:-1])
     sys.stdout.flush()
