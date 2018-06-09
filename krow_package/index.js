@@ -54,7 +54,7 @@ function process_ID(jobID) {
       } else {
         chunk = chunk.toString().substring(0, chunk.length)
       } 
-      console.log(chunk.toString())
+      // console.log(chunk.toString())
       resolve(chunk)
     })
     python2.stderr.on("data", async (chunk) => {
