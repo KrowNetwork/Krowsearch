@@ -56,7 +56,7 @@ function process_ID(jobID) {
       // if (osvar == "win32") {
       //   chunk = chunk.toString().substring(0, chunk.length - 4)
       // } 
-      // console.log(chunk.toString())
+      console.log(chunk.toString())
       resolve(chunk)//.split("+="))
     })
     python2.stderr.on("data", async (chunk) => {
