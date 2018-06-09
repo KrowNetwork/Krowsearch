@@ -9,9 +9,9 @@ var utf8 = require('utf8');
 var num_cpus = Math.floor(os.cpus().length / 2);
 
 var osvar = process.platform;
-if (osvar != "win32") {
-  cluster.schedulingPolicy = cluster.SCHED_RR
-}
+// if (osvar != "win32") {
+//   cluster.schedulingPolicy = cluster.SCHED_RR
+// }
 
 var API_KEY = "42fc1e42-5eb8-4a8f-8904-7c58529f0f58";
 
