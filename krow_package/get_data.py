@@ -8,7 +8,7 @@ from json.decoder import JSONDecodeError
 r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs")
 n = {}
 def special_print(p):
-    data = ["title", "description", "employerID", "postDate"]
+    data = ["title", "description", "employerID", "postDate", "tags"]
     pp = "{"
     for i in data:
         pp += "\"%s\": %s," % (i, p[i])
