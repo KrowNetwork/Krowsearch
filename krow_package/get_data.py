@@ -44,5 +44,5 @@ while True:
     #     print (x)
     # except JSONDecodeError:
     #     print (x[:-1])
-    print (x)
+    print (special_print(x))
     sys.stdout.flush()
