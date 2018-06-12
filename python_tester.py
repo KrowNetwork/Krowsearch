@@ -12,7 +12,7 @@ for i in range(100):
         z = r.text
 
         z = z.split("~+/=")
-        print (json.loads(z[-1]))
+        # print (z[-2:])
 
         # print (z[-1])
         # print (r.headers)

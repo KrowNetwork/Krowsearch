@@ -7,14 +7,7 @@ from json.decoder import JSONDecodeError
 # import unicode
 r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs")
 n = {}
-def special_print(p):
-    data = ["title", "description", "employerID", "postDate", "tags", "jobType"]
-    pp = "{"
-    for i in data:
-        pp += "\"%s\": %s," % (i, p[i])
-    # pp = pp + "}"
-    pp = pp[:-1] + "}"
-    return pp 
+data = ["title", "description", "employerID", "created", "tags", "jobType"]
 
 for i in json.loads(r.text):
     x = json.dumps(i)
@@ -31,7 +24,22 @@ while True:
     c = 0
     for i in id.split():
         # x[str(c)] = n[i]
-        x += n[i] + "~+/="
+        z = {}
+        for a in data:
+            # print (n[i])
+            # print (type(n[i]))
+            b = json.loads(n[i])
+            if a == "description":
+                d = b[a][:100]
+            elif a == "jobType":
+                if a not in b:
+                    b[a] = "NONE"
+                    break
+            else:
+                d = b[a]
+
+            b[a] = d
+        x += str(b) + "~+/="
         c += 1
 
     x = x[:-4]
@@ -44,5 +52,5 @@ while True:
     #     print (x)
     # except JSONDecodeError:
     #     print (x[:-1])
-    print (special_print(x))
+    print (x)
     sys.stdout.flush()
