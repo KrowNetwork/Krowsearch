@@ -6,14 +6,19 @@ import matplotlib.pyplot as plt
 from sklearn.mixture import GaussianMixture
 from sklearn.cluster import KMeans, MeanShift
 import re
+import requests
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
-df = pd.read_csv('datasets/data2.csv')
-df.drop_duplicates()
-df.reset_index(drop=True)
+r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs")
+r = r.json()
 
-np.random.shuffle(df.values)
-documents = df['description']
+def get_docs(r):
+    documents = []
+    for i in r:
+        documents.append(i['description'])
+    return documents
+
+documents = get_docs(r)
 
 with open("assets/stopwords.txt", "r") as f:
     stoplist = f.readlines()
