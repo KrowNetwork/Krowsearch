@@ -102,7 +102,7 @@ async def search(term):
     data = str(r[sims[0][1]]["jobID"]) + " "
 
     for i in range(1, len(sims)):
-        data += str(r[sims[i][1]]["jobID"])
+        data += str(r[sims[i][1]]["jobID"]) + " "
 
     print (data[:-1])
     fin = time.time()
