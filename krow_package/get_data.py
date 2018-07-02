@@ -40,6 +40,7 @@ while True:
 
             b[a] = d
         x += str(b) + "~+/="
+        # x += str(b["created"]) + " "
         c += 1
 
     x = x[:-4]
@@ -52,5 +53,6 @@ while True:
     #     print (x)
     # except JSONDecodeError:
     #     print (x[:-1])
+    # print (" ")
     print (x)
     sys.stdout.flush()

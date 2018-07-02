@@ -30,7 +30,7 @@ exports.reset_spawn = async function() {
   }
 }
 
-exports.search = async function(query) {
+exports.search = async function(query, sort) {
 
   return new Promise(function(resolve, reject){
     python.stdout.on('data', async (chunk) => {
@@ -42,7 +42,13 @@ exports.search = async function(query) {
           resolve(result)
         });
     })
-    python.stdin.write(query + os.EOL);
+    if (sort == "relevance" || sort === undefined) {
+      python.stdin.write(query + " " + "relevance" + os.EOL);
+    }
+    else {
+      python.stdin.write(query + " " + sort + os.EOL);
+    }
+    
   })
 
 }

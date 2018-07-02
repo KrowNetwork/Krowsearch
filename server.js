@@ -70,13 +70,14 @@ if (cluster.isMaster) {
 
     var query = req.query.term;
     var key = req.query.key;
+    var sort = req.query.sort;
 
     if (KEYS[key] === undefined) {
       throw new Error("API Key " + key + " is invalid. Contact Tucker to clear the issue")
       res.end()
     } else {
       log(key + "[" + KEYS[key] + "]: " + query)
-      await krow.search(query)
+      await krow.search(query, sort)
 
       .then(function (result){
         // console.log(result.toString())

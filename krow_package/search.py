@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 import argparse
 from datetime import datetime, date
+from dateutil.parser import parse
 import dateparser
 import sys, os
 import json
@@ -16,6 +17,8 @@ import time
 import asyncio
 loop = asyncio.get_event_loop()
 import requests
+import operator
+
 
 
 write_file = "results.json"
@@ -63,6 +66,36 @@ def company_similarity_scorer(sent_1, sent_2):
 
     return score
 
+def bubble_ascending(array):
+    go = True
+    while go:
+        go = False
+        for a in range(len(array) - 1):
+            i = array[a]
+            item = array[a + 1]
+            if parse(r[i[0]]["created"]) < parse(r[item[0]]["created"]):
+                temp = i 
+                array[a] = item
+                array[a + 1] = temp
+                go = True
+    array = [x[::-1] for x in array]
+    return array
+
+def bubble_descending(array):
+    go = True
+    while go:
+        go = False
+        for a in range(len(array) - 1):
+            i = array[a]
+            item = array[a + 1]
+            if parse(r[i[0]]["created"]) > parse(r[item[0]]["created"]):
+                temp = i 
+                array[a] = item
+                array[a + 1] = temp
+                go = True
+    array = [x[::-1] for x in array]
+    return array
+
 async def calc(i):
     count = 1
     vector_avg = i[1]
@@ -77,10 +110,17 @@ async def iterate_data(data):
     for i in data:
         yield i
 
-async def search(term):
+async def relevance_sort(top):
+    vals = []
+    async for i in iterate_data(top):
+        vals.append([await calc(i), i[0]])
+    
+    return vals
+
+async def search(term, sort_type):
     if args.t:
         now = time.time()
-
+   
     vec_bow = dictionary.doc2bow(term.lower().split())
     vec_lsi = lsi[vec_bow]
 
@@ -89,15 +129,22 @@ async def search(term):
 
     top = sims[:10]
     vals = []
+    
+    if sort_type == "ascending":
+        sims = bubble_ascending(top)
 
-    if args.t:
-        loop_now = time.time()
-    async for i in iterate_data(top):
-        vals.append([await calc(i), i[0]])
-    if args.t:
-        loop_now = time.time() - loop_now
+    elif sort_type == "descending":
+        sims = bubble_descending(top)
 
-    sims = sorted(vals, key=lambda item: item[0])
+    else:
+        if args.t:
+            loop_now = time.time()
+        async for i in iterate_data(top):
+            vals.append([await calc(i), i[0]])
+        if args.t:
+            loop_now = time.time() - loop_now
+        sims = sorted(vals, key=lambda item: item[0])
+
 
     data = str(r[sims[0][1]]["jobID"]) + " "
 
@@ -132,7 +179,10 @@ index = similarities.MatrixSimilarity(lsi[corpus])
 
 while True:
     term = input()
+    term = term.split()
+    sort_type = term[-1]
+    term = term[0]
     # t = time.time()
-    loop.run_until_complete(search(term))
+    loop.run_until_complete(search(term, sort_type))
     # print (time.time() - t)
 
