@@ -66,33 +66,22 @@ def company_similarity_scorer(sent_1, sent_2):
 
     return score
 
-def bubble_ascending(array):
-    go = True
-    while go:
-        go = False
-        for a in range(len(array) - 1):
-            i = array[a]
-            item = array[a + 1]
-            if parse(r[i[0]]["created"]) < parse(r[item[0]]["created"]):
-                temp = i 
-                array[a] = item
-                array[a + 1] = temp
-                go = True
+def sort_ascending(array):
+    for a in range(len(array)):
+        i = array[a]
+        array[a] = (i[0], i[1], r[i[0]]["created"])
+    array = sorted(array, key=lambda item: item[2])
+    array = [x[:2] for x in array]
     array = [x[::-1] for x in array]
+    # print (array[0])
     return array
 
-def bubble_descending(array):
-    go = True
-    while go:
-        go = False
-        for a in range(len(array) - 1):
-            i = array[a]
-            item = array[a + 1]
-            if parse(r[i[0]]["created"]) > parse(r[item[0]]["created"]):
-                temp = i 
-                array[a] = item
-                array[a + 1] = temp
-                go = True
+def sort_descending(array):
+    for a in range(len(array)):
+        i = array[a]
+        array[a] = (i[0], i[1], r[i[0]]["created"])
+    array = sorted(array, key=lambda item: item[2])[::-1]
+    array = [x[:2] for x in array]
     array = [x[::-1] for x in array]
     return array
 
@@ -127,19 +116,21 @@ async def search(term, sort_type):
     sims = index[vec_lsi]
     sims = sorted(enumerate(sims), key=lambda item: -item[1])
 
-    top = sims[:10]
+    top = sims[:1000]
     vals = []
     
     if sort_type == "ascending":
-        sims = bubble_ascending(top)
-
+        # print ("sorting")
+        sims = sort_ascending(top)
+        sims = sims[:10]
     elif sort_type == "descending":
-        sims = bubble_descending(top)
+        sims = sort_descending(top)
+        sims = sims[:10]
 
     else:
         if args.t:
             loop_now = time.time()
-        async for i in iterate_data(top):
+        async for i in iterate_data(top[:10]):
             vals.append([await calc(i), i[0]])
         if args.t:
             loop_now = time.time() - loop_now
