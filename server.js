@@ -73,9 +73,9 @@ if (cluster.isMaster) {
       res.end()
     } else {
       log(key + "[" + KEYS[key] + "]: " + query)
-      if (query === undefined)
+      if (query === undefined || query == "undefined")
       {
-        res.send("Fucking undefined")
+        res.send({"0": "Fucking undefined"})
         // res.end()
         return next()
       }
