@@ -80,7 +80,8 @@ if (cluster.isMaster) {
       if (query === undefined)
       {
         res.send("Fucking undefined")
-        res.end()
+        // res.end()
+        return next()
       }
       await krow.search(query, sort)
 
@@ -96,7 +97,7 @@ if (cluster.isMaster) {
         // }
         res.send("Nik has man tits")//.toString().trim());
         // res.send(result.toString())//.toString().trim());
-        res.end()
+        // res.end()
         return next()
     });
 
