@@ -59,16 +59,12 @@ function process_ID(jobID) {
 
   return new Promise(function (resolve, reject){
     python2.stdout.on('data', async (chunk) =>{
-      // if (osvar == "win32") {
-      //   chunk = chunk.toString().substring(0, chunk.length - 4)
-      // } 
-      // console.log(chunk.toString())
       ret = {}
       chunk = chunk.toString().split("~+/=")
       for (var i = 0; i < chunk.length; i++){
         ret[i.toString()] = chunk[i]
       }
-      resolve(ret)//.split("+="))
+      resolve(ret)
     })
     python2.stderr.on("data", async (chunk) => {
       reject(chunk.toString())

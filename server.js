@@ -11,11 +11,8 @@ var events = require('events');
 var eventEmitter = new events.EventEmitter();
 eventEmitter.setMaxListeners(1000)
 var osvar = process.platform;
-// emitter.setMaxListeners(20)
+emitter.setMaxListeners(11)
 
-// if (osvar != "win32") {
-//   cluster.schedulingPolicy = cluster.SCHED_RR
-// }
 var krow = require("krow_package/index.js")
 
 var API_KEY = "42fc1e42-5eb8-4a8f-8904-7c58529f0f58";
