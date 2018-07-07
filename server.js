@@ -77,6 +77,11 @@ if (cluster.isMaster) {
       res.end()
     } else {
       log(key + "[" + KEYS[key] + "]: " + query)
+      if (query === undefined)
+      {
+        res.send("Fucking undefined")
+        res.end()
+      }
       await krow.search(query, sort)
 
       .then(function (result){
@@ -90,7 +95,7 @@ if (cluster.isMaster) {
         //   res.write(result[i].toString())
         // }
         res.send(result.toString())//.toString().trim());
-        // res.end()
+        res.end()
         return next()
     });
 

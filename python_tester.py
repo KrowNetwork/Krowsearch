@@ -3,7 +3,7 @@ import requests
 import time
 import json
 
-for i in range(100):
+for i in range(1):
     try:
         now = time.time()
         r = requests.get("http://18.220.46.51:4200/search?key=dgf463d4-4fg5-55la-3z0f-7c78ft9s9z64&term=designer")#, json={"term": "software developer"})
@@ -12,6 +12,7 @@ for i in range(100):
         z = r.text
 
         z = z.split("~+/=")
+        print (z[0])
         # print (z[-2:])
 
         # print (z[-1])
