@@ -3,6 +3,5 @@
 #exit on fail
 set -e
 
-screen -X -S search quit 2>/dev/null || echo "No screen session to kill"
-
+screen -X -S search quit 2>/dev/null || true
 sudo fuser -k 4200/tcp || echo "Nothing using port 4200"
