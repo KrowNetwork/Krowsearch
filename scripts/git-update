@@ -12,7 +12,9 @@ version="0"
 
 cd $repodir
 
+scripts/stopserver
+
 git checkout $branch
 git pull
 
-# scripts/startserver
+scripts/startserver
