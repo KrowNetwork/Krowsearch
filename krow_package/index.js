@@ -63,7 +63,15 @@ function process_ID(jobID) {
       //   chunk = chunk.toString().substring(0, chunk.length - 4)
       // } 
       // console.log(chunk.toString())
-      resolve(chunk)//.split("+="))
+      ret = {}
+      chunk = chunk.split("~+/=")
+      for (var i = 0; i < chunk.length; i++){
+        ret.push({
+          key: str(c),
+          value: chunk[c]
+        })
+      }
+      resolve(ret)//.split("+="))
     })
     python2.stderr.on("data", async (chunk) => {
       reject(chunk.toString())
