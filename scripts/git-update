@@ -18,3 +18,5 @@ git checkout $branch
 git pull
 
 scripts/startserver
+
+screen -r search
