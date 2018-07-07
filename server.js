@@ -9,9 +9,8 @@ var utf8 = require('utf8');
 var num_cpus = Math.floor(os.cpus().length / 2);
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
-eventEmitter.setMaxListeners(1000)
+eventEmitter.setMaxListeners(11)
 var osvar = process.platform;
-emitter.setMaxListeners(11)
 
 var krow = require("krow_package/index.js")
 
