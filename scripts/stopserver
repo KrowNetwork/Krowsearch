@@ -5,4 +5,4 @@ set -e
 
 screen -X -S search quit 2>/dev/null || true
 
-fuser -k 4200/tcp
+sudo fuser -k 4200/tcp
