@@ -95,8 +95,8 @@ if (cluster.isMaster) {
         // for (var i = 0; i < result.length; i ++) {
         //   res.write(result[i].toString())
         // }
-        res.send({"1": "Nik has man tits"})//.toString().trim());
-        // res.send(result.toString())//.toString().trim());
+        // res.send({"1": "Nik has man tits"})//.toString().trim());
+        res.send({"1": result.toString()})//.toString().trim());
         // res.end()
         return next()
     });
