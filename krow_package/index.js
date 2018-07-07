@@ -64,12 +64,9 @@ function process_ID(jobID) {
       // } 
       // console.log(chunk.toString())
       ret = {}
-      chunk = chunk.split("~+/=")
+      chunk = chunk.toString().split("~+/=")
       for (var i = 0; i < chunk.length; i++){
-        ret.push({
-          key: str(c),
-          value: chunk[c]
-        })
+        ret[i.toString()] = chunk[i]
       }
       resolve(ret)//.split("+="))
     })
