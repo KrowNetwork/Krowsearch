@@ -9,6 +9,10 @@ r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs")
 n = {}
 data = ["title", "description", "employerID", "created", "tags", "jobType"]
 
+# def special_print(p):
+#     # data = ["title", "description", "employerID", "postDate", "tags", "jobType"]
+#     for i in 
+
 for i in json.loads(r.text):
     x = json.dumps(i)
     # print (x)
@@ -39,7 +43,12 @@ while True:
                 d = b[a]
 
             b[a] = d
-        x += str(b) + "~+/="
+        bb = "{"
+        for i in b:
+            bb += '"%s": "%s",' % (i, b[i])
+        bb = bb[:-1] + "}"
+
+        x += bb + "~+/="
         # x += str(b["created"]) + " "
         c += 1
 
