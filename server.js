@@ -58,7 +58,6 @@ if (cluster.isMaster) {
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    // res.header("Content-Length", "262144");
     next();
   });
 
@@ -82,18 +81,7 @@ if (cluster.isMaster) {
       await krow.search(query, sort)
 
       .then(function (result){
-        // console.log(result.toString())
-        // res.header("Content-Length", result.toString().length+'')
-        // res.header("Content-Length", "262144");
-
-        // console.log(result.length)
-        // result = result.toString().split("~+/=")
-        // for (var i = 0; i < result.length; i ++) {
-        //   res.write(result[i].toString())
-        // }
-        // res.send({"1": "Nik has man tits"})//.toString().trim());
-        res.send(result)//.toString().trim());
-        // res.end()
+        res.send(result)
         return next()
     });
 
