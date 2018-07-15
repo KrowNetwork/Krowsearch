@@ -34,7 +34,7 @@ while True:
             # print (type(n[i]))
             b = json.loads(n[i])
             if a == "description":
-                d = b[a][:100]
+                d = b[a][:100].replace('"', "++")
             elif a == "jobType":
                 if a not in b:
                     b[a] = "NONE"
@@ -46,7 +46,7 @@ while True:
         bb = "{"
         for i in b:
             # print (b[i])
-            p = str(b[i]).replace('"', "++")
+            # p = str(b[i]).replace('"', "++")
             bb += '"%s": "%s",' % (i, b[i])
         bb = bb[:-1] + "}"
 
