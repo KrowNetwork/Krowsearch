@@ -82,6 +82,7 @@ if (cluster.isMaster) {
 
       .then(function (result){
         res.send(result)
+        res.end()
         return next()
     });
 
