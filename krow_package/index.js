@@ -44,9 +44,11 @@ exports.search = async function(query, sort) {
     })
     if (sort == "relevance" || sort === undefined) {
       python.stdin.write(query + " " + "relevance" + os.EOL);
+      python.stdout.write('\033c');
     }
     else {
       python.stdin.write(query + " " + sort + os.EOL);
+      python.stdout.write('\033c');
     }
     
   })
@@ -70,6 +72,7 @@ function process_ID(jobID) {
       reject(chunk.toString())
     })
     python2.stdin.write(jobID + os.EOL);
+    python2.stdout.write('\033c');
 
   })
 
