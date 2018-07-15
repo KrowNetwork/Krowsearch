@@ -45,8 +45,8 @@ while True:
             b[a] = d
         bb = "{"
         for i in b:
-            print (b[i])
-            b[i].replace('"', "++")
+            # print (b[i])
+            p = str(b[i]).replace('"', "++")
             bb += '"%s": "%s",' % (i, b[i])
         bb = bb[:-1] + "}"
 
