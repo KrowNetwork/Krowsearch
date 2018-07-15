@@ -29,10 +29,11 @@ while True:
     for i in id.split():
         # x[str(c)] = n[i]
         z = {}
+        b = json.loads(n[i])
         for a in data:
             # print (n[i])
             # print (type(n[i]))
-            b = json.loads(n[i])
+            
             if a == "description":
                 d = b[a][:100].replace('"', "++")
             elif a == "jobType":
