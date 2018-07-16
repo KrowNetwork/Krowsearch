@@ -63,7 +63,7 @@ function process_ID(jobID) {
     python2.stdout.on('data', async (chunk) =>{
       ret = {}
       chunk = chunk.toString().split("~+/=")
-      for (var i = 0; i < chunk.length; i++){
+      for (var i = 0; i < 10; i++){
         ret[i.toString()] = chunk[i]
       }
       resolve(ret)
