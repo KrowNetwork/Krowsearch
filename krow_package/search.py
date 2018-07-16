@@ -130,7 +130,7 @@ async def search(term, sort_type):
     else:
         if args.t:
             loop_now = time.time()
-        async for i in iterate_data(top[:100]):
+        async for i in iterate_data(top[:1000]):
             vals.append([await calc(i), i[0]])
         if args.t:
             loop_now = time.time() - loop_now
