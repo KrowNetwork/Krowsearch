@@ -116,7 +116,7 @@ async def search(term, sort_type):
     sims = index[vec_lsi]
     sims = sorted(enumerate(sims), key=lambda item: -item[1])
 
-    top = sims[:1000]
+    top = sims[:10000]
     vals = []
     
     if sort_type == "ascending":
