@@ -20,6 +20,7 @@ import requests
 import operator
 import geopy
 from geopy import Nominatim
+import re
 
 geolocator = Nominatim()
 
@@ -141,15 +142,23 @@ async def search(term, location, sort_type):
 
     if location != "" and location != None:
         location = geolocator.geocode(location)
+        # print (location)
         distances = {}
         for i in range(100):
-            temp = geolocator.geocode(r[sims[i][1]["location"]])
-            distances[i] = geopy.distance.vincenty(location, temp).km
+            try:
+                temp = geolocator.geocode(r[sims[i][1]]["location"])
+                distances[i] = geopy.distance.vincenty(location, temp).km
+            except:
+                distances[i] = 10000000
+            
+
+                
 
         sorted_x = sorted(distances.items(), key=operator.itemgetter(1))
         sims2 = []
-        for i in sortex_x[:10]:
-            sims2.append(sims[sorted_x[i][0]])
+        # print (sorted_x)
+        for i in sorted_x[:10]:
+            sims2.append(sims[i[0]])
 
         sims = sims2
 
@@ -188,10 +197,10 @@ index = similarities.MatrixSimilarity(lsi[corpus])
 
 while True:
     term = input()
-    term = term.split()
-    sort_type = term[-1]
-    term = term[0]
-    location = term[1]
+    d = re.findall(r'"(.*?)"', term)
+    term = d[0]
+    location = d[1]
+    sort_type = d[2]
     # t = time.time()
     loop.run_until_complete(search(term, location, sort_type))
     # print (time.time() - t)

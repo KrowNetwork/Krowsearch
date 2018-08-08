@@ -43,11 +43,11 @@ exports.search = async function(query, location, sort) {
         });
     })
     if (sort == "relevance" || sort === undefined) {
-      python.stdin.write(query + " " + location + " " + "relevance" + os.EOL);
+      python.stdin.write("\"" + query +  "\"" + " \"" + location + "\" " + "\"relevance\"" + os.EOL);
       python.stdout.write('\033c');
     }
     else {
-      python.stdin.write(query + " " + location + " " + sort + os.EOL);
+      python.stdin.write("\"" + query +  "\"" + " \"" + location + "\" " + "\"" + sort + "\"" + os.EOL);
       python.stdout.write('\033c');
     }
     
