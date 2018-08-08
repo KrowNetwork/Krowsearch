@@ -18,7 +18,10 @@ import asyncio
 loop = asyncio.get_event_loop()
 import requests
 import operator
+import geopy
+from geopy import Nominatim
 
+geolocator = Nominatim()
 
 
 write_file = "results.json"
@@ -106,7 +109,7 @@ async def relevance_sort(top):
     
     return vals
 
-async def search(term, sort_type):
+async def search(term, location, sort_type):
     if args.t:
         now = time.time()
    
@@ -122,10 +125,10 @@ async def search(term, sort_type):
     if sort_type == "ascending":
         # print ("sorting")
         sims = sort_ascending(top)
-        sims = sims[:10]
+        sims = sims[:100]
     elif sort_type == "descending":
         sims = sort_descending(top)
-        sims = sims[:10]
+        sims = sims[:100]
 
     else:
         if args.t:
@@ -136,6 +139,19 @@ async def search(term, sort_type):
             loop_now = time.time() - loop_now
         sims = sorted(vals, key=lambda item: item[0])
 
+    if location != "" and location != None:
+        location = geolocator.geocode(location)
+        distances = {}
+        for i in range(100):
+            temp = geolocator.geocode(r[sims[i][1]["location"]])
+            distances[i] = geopy.distance.vincenty(location, temp).km
+
+        sorted_x = sorted(distances.items(), key=operator.itemgetter(1))
+        sims2 = []
+        for i in sortex_x[:10]:
+            sims2.append(sims[sorted_x[i][0]])
+
+        sims = sims2
 
     data = str(r[sims[0][1]]["jobID"]) + " "
 
@@ -173,7 +189,8 @@ while True:
     term = term.split()
     sort_type = term[-1]
     term = term[0]
+    location = term[1]
     # t = time.time()
-    loop.run_until_complete(search(term, sort_type))
+    loop.run_until_complete(search(term, location, sort_type))
     # print (time.time() - t)
 

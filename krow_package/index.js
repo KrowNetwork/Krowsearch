@@ -30,7 +30,7 @@ exports.reset_spawn = async function() {
   }
 }
 
-exports.search = async function(query, sort) {
+exports.search = async function(query, location, sort) {
 
   return new Promise(function(resolve, reject){
     python.stdout.on('data', async (chunk) => {
@@ -43,11 +43,11 @@ exports.search = async function(query, sort) {
         });
     })
     if (sort == "relevance" || sort === undefined) {
-      python.stdin.write(query + " " + "relevance" + os.EOL);
+      python.stdin.write(query + " " + location + " " + "relevance" + os.EOL);
       python.stdout.write('\033c');
     }
     else {
-      python.stdin.write(query + " " + sort + os.EOL);
+      python.stdin.write(query + " " + location + " " + sort + os.EOL);
       python.stdout.write('\033c');
     }
     
