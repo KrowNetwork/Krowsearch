@@ -171,7 +171,9 @@ parser = argparse.ArgumentParser(description='search')
 parser.add_argument('-t', action='store_true')
 args = parser.parse_args()
 
-r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs")
+r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs", headers={"x-api-key": "qLBrEwIv690nAbMfVHB965WC3KfoC1VpvkBjDUiBfVOG5mTzlUlwkckKLerAUxxv"})
+
+
 r = r.json()
 
 dictionary = corpora.Dictionary.load('data/data.dict')
