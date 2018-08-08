@@ -17,7 +17,7 @@ var krow = require("krow_package/index.js")
 var API_KEY = "42fc1e42-5eb8-4a8f-8904-7c58529f0f58";
 
 var KEYS = {
-  "42fc1e42-5eb8-4a8f-8904-7c58529f0f58": "nik/frontend",
+  "42fc1e42-5eb8-4a8f-8904-7c58529f0f58": "frontend",
   "dgf463d4-4fg5-55la-3z0f-7c78ft9s9z64": "tucker"
 }                                    
 
@@ -66,7 +66,10 @@ if (cluster.isMaster) {
     var query = req.query.term;
     var key = req.query.key;
     var sort = req.query.sort;
-    var location = req.query.sort;
+    var location = req.query.location;
+    if (location === undefined || location == "") {
+      location = ""
+    }
 
     if (KEYS[key] === undefined) {
       throw new Error("API Key " + key + " is invalid. Contact Tucker to clear the issue")
