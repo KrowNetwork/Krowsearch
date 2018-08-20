@@ -43,8 +43,13 @@ exports.search = async function(query, location, sort) {
         });
     })
     if (sort == "relevance" || sort === undefined) {
+      var date = new Date();
+      if (date.getMinutes() == 30) {
+        python.stdin.write("\"" + query +  "\"" + " \"" + location + "\" " + "\"relevance\"" + "\"reset\"" + os.EOL);
+      } else {
+        python.stdin.write("\"" + query +  "\"" + " \"" + location + "\" " + "\"relevance\"" + os.EOL);
+      }
       console.log("\"" + query +  "\"" + " \"" + location + "\" " + "\"relevance\"" + os.EOL)
-      python.stdin.write("\"" + query +  "\"" + " \"" + location + "\" " + "\"relevance\"" + os.EOL);
       python.stdout.write('\033c');
     }
     else {
@@ -72,7 +77,11 @@ function process_ID(jobID) {
     python2.stderr.on("data", async (chunk) => {
       reject(chunk.toString())
     })
-    python2.stdin.write(jobID + os.EOL);
+    if (new Date().getMinutes() == 30) {
+      python2.stdin.write('"' + jobID + '"' + ' "reset"' + os.EOL);
+    } else {
+      python2.stdin.write('"' + jobID + '"' + os.EOL);
+    }
     python2.stdout.write('\033c');
 
   })

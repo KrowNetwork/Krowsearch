@@ -21,8 +21,17 @@ for i in json.loads(r.text):
 
 while True:
     # x = json.loads("{}")
+    reset = False
     x = ""
     id = input()
+    d = re.findall(r'"(.*?)"', id)
+    try:
+        if (d[1] == "reset"):
+            reset = True 
+    except:
+        pass 
+    
+    id = id[0]
     # print (i)
     
     c = 0
@@ -68,3 +77,18 @@ while True:
     # print (" ")
     print (x)
     sys.stdout.flush()
+
+    if (reset):
+        r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs", headers={"x-api-key": "qLBrEwIv690nAbMfVHB965WC3KfoC1VpvkBjDUiBfVOG5mTzlUlwkckKLerAUxxv"})
+        n = {}
+        data = ["title", "description", "employerID", "created", "tags", "jobType"]
+
+        # def special_print(p):
+        #     # data = ["title", "description", "employerID", "postDate", "tags", "jobType"]
+        #     for i in 
+
+        for i in json.loads(r.text):
+            x = json.dumps(i)
+            # print (x)
+            # x = json.loads(x)
+            n[i['jobID']] = x

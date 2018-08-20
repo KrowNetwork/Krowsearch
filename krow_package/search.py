@@ -175,6 +175,9 @@ async def search(term, location, sort_type):
 
     sys.stdout.flush()
 
+    sims = None
+    vec_bow = None
+    vec_lsi = None
 
 parser = argparse.ArgumentParser(description='search')
 parser.add_argument('-t', action='store_true')
@@ -184,6 +187,9 @@ r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs", header
 
 
 r = r.json()
+
+# print (sys.getsizeof(r))
+# print (len(r))
 
 dictionary = corpora.Dictionary.load('data/data.dict')
 corpus = corpora.MmCorpus('data/data.mm')
@@ -201,7 +207,31 @@ while True:
     term = d[0]
     location = d[1]
     sort_type = d[2]
+    try:
+        ext = d[3]
+        if (ext == 'reset'):
     # t = time.time()
-    loop.run_until_complete(search(term, location, sort_type))
+            loop.run_until_complete(search(term, location, sort_type))
+            r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs", headers={"x-api-key": "qLBrEwIv690nAbMfVHB965WC3KfoC1VpvkBjDUiBfVOG5mTzlUlwkckKLerAUxxv"})
+
+
+            r = r.json()
+            
+
+            # print (sys.getsizeof(r))
+            # print (len(r))
+
+            dictionary = corpora.Dictionary.load('data/data.dict')
+            corpus = corpora.MmCorpus('data/data.mm')
+
+            lsi = models.TfidfModel.load("models/model.tfidf")
+
+            model = models.Word2Vec.load("models/model.w2v")
+
+            index = similarities.MatrixSimilarity(lsi[corpus])
+        else:
+            loop.run_until_complete(search(term, location, sort_type))
+    except:
+        pass
     # print (time.time() - t)
 
