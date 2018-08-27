@@ -25,7 +25,7 @@ while True:
     reset = False
     x = ""
     id = input()
-    d = re.findall(r'"(.*?)"', id)
+    # d = re.findall(r'"(.*?)"', id)
     try:
         if (d[1] == "reset"):
             reset = True 
