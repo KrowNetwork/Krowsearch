@@ -26,11 +26,11 @@ while True:
     x = ""
     id = input()
     # d = re.findall(r'"(.*?)"', id)
-    try:
-        if (d[1] == "reset"):
-            reset = True 
-    except:
-        pass 
+    # try:
+    #     if (d[1] == "reset"):
+    #         reset = True 
+    # except:
+    #     pass 
     
     id = id[0]
     # print (i)
