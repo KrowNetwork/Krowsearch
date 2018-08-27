@@ -36,7 +36,7 @@ exports.search = async function(query, location, sort) {
     python.stdout.on('data', async (chunk) => {
 
       results = chunk
-      console.log(chunk)
+      // console.log(chunk)
 
       await process_ID(results)
         .then(function (result){
@@ -69,7 +69,7 @@ function process_ID(jobID) {
   return new Promise(function (resolve, reject){
     python2.stdout.on('data', async (chunk) =>{
       ret = {}
-      console.log(chunk)
+      // console.log(chunk)
       chunk = chunk.toString().split("~+/=")
       for (var i = 0; i < 10; i++){
         ret[i.toString()] = chunk[i]
