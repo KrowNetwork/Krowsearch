@@ -36,6 +36,7 @@ exports.search = async function(query, location, sort) {
     python.stdout.on('data', async (chunk) => {
 
       results = chunk
+      console.log(chunk)
 
       await process_ID(results)
         .then(function (result){
