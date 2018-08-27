@@ -78,9 +78,9 @@ function process_ID(jobID) {
       reject(chunk.toString())
     })
     if (new Date().getMinutes() == 30) {
-      python2.stdin.write('"' + jobID + '"' + ' "reset"' + os.EOL);
+      python2.stdin.write(jobID + os.EOL);
     } else {
-      python2.stdin.write('"' + jobID + '"' + os.EOL);
+      python2.stdin.write(jobID + os.EOL);
     }
     python2.stdout.write('\033c');
 
