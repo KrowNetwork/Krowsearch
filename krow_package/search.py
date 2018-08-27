@@ -206,9 +206,13 @@ index = similarities.MatrixSimilarity(lsi[corpus])
 
 while True:
     term = input()
+    # clear = lambda: os.system('clear')
+    # clear2 = lambda: os.system('cls')
+    # clear() 
+    # clear2()
     d = re.findall(r'"(.*?)"', term)
     term = d[0]
-    print (term)
+    # print (term)
     location = d[1]
     if location == "undefined":
         location = None
