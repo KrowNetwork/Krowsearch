@@ -92,6 +92,7 @@ def sort_descending(array):
 async def calc(i):
     count = 1
     vector_avg = i[1]
+    # print (i)
     if term != "":
         vector_avg = await get_sentence_difference(term, r[i[0]]['description'], model, vector_avg)
         vector_avg = await get_sentence_difference(term, r[i[0]]['title'], model, vector_avg)
@@ -140,27 +141,28 @@ async def search(term, location, sort_type):
             loop_now = time.time() - loop_now
         sims = sorted(vals, key=lambda item: item[0])
 
-    if location != "" and location != None:
-        location = geolocator.geocode(location)
-        # print (location)
-        distances = {}
-        for i in range(100):
-            try:
-                temp = geolocator.geocode(r[sims[i][1]]["location"])
-                distances[i] = geopy.distance.vincenty(location, temp).km
-            except:
-                distances[i] = 10000000
+    # if location != "" and location != None:
+    #     location = geolocator.geocode(location)
+    #     # print (location)
+    #     distances = {}
+    #     for i in range(100):
+    #         print (i)
+    #         try:
+    #             temp = geolocator.geocode(r[sims[i][1]]["location"])
+    #             distances[i] = geopy.distance.vincenty(location, temp).km
+    #         except:
+    #             distances[i] = 10000000
             
 
                 
 
-        sorted_x = sorted(distances.items(), key=operator.itemgetter(1))
-        sims2 = []
-        # print (sorted_x)
-        for i in sorted_x[:10]:
-            sims2.append(sims[i[0]])
+    #     sorted_x = sorted(distances.items(), key=operator.itemgetter(1))
+    #     sims2 = []
+    #     # print (sorted_x)
+    #     for i in sorted_x[:10]:
+    #         sims2.append(sims[i[0]])
 
-        sims = sims2
+    #     sims = sims2
 
     data = str(r[sims[0][1]]["jobID"]) + " "
 
@@ -186,8 +188,9 @@ args = parser.parse_args()
 r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs", headers={"x-api-key": "qLBrEwIv690nAbMfVHB965WC3KfoC1VpvkBjDUiBfVOG5mTzlUlwkckKLerAUxxv"})
 
 
+# print (r.text)
 r = r.json()
-
+# print (r[0])
 # print (sys.getsizeof(r))
 # print (len(r))
 
@@ -205,33 +208,11 @@ while True:
     term = input()
     d = re.findall(r'"(.*?)"', term)
     term = d[0]
+    print (term)
     location = d[1]
+    if location == "undefined":
+        location = None
     sort_type = d[2]
-    try:
-        ext = d[3]
-        if (ext == 'reset'):
-    # t = time.time()
-            loop.run_until_complete(search(term, location, sort_type))
-            r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs", headers={"x-api-key": "qLBrEwIv690nAbMfVHB965WC3KfoC1VpvkBjDUiBfVOG5mTzlUlwkckKLerAUxxv"})
-
-
-            r = r.json()
-            
-
-            # print (sys.getsizeof(r))
-            # print (len(r))
-
-            dictionary = corpora.Dictionary.load('data/data.dict')
-            corpus = corpora.MmCorpus('data/data.mm')
-
-            lsi = models.TfidfModel.load("models/model.tfidf")
-
-            model = models.Word2Vec.load("models/model.w2v")
-
-            index = similarities.MatrixSimilarity(lsi[corpus])
-        else:
-            loop.run_until_complete(search(term, location, sort_type))
-    except:
-        pass
+    loop.run_until_complete(search(term, location, sort_type))
     # print (time.time() - t)
 

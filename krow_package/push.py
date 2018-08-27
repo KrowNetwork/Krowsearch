@@ -5,7 +5,7 @@ import time
 
 chain = Chain("http://18.220.46.51:3000/")
 # test_suite.delete_samples(chain)
-test_suite.create_samples(chain)
+# test_suite.create_samples(chain)
 # chain.delete_all_jobs()
 # exit()
 

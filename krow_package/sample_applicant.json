@@ -15,12 +15,6 @@
       }
     ],
     "skills": [
-      {
-        "$class": "network.krow.resume.Skill",
-        "skill": "Python",
-        "description": "I Like to think I'm pretty good",
-        "endorsementRating": 0
-      }
     ],
     "experience": [
       {

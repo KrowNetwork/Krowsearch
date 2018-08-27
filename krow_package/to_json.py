@@ -19,6 +19,9 @@ for i in range(count):
             "tags": ["test", "test2"],
             "payment": 0,
             "paymentType": "DAILY",
+            "location": random.choice(["New York City", "Sacramento", "Denver", "Austin, Texas", "Newark", "Charlotte", "Roanoke, VA"]),
+            "jobType": "ENTRY_LEVEL",
+            "contract": "You do work, you get paid!"
             }
     with open("krow_jobs/%s.json" % i, 'w') as f:
         json.dump(data, f)
