@@ -4,6 +4,7 @@ import json
 import sys
 import requests
 from json.decoder import JSONDecodeError
+import re
 # import unicode
 r = requests.get("http://18.220.46.51:3000/api/queries/GetAvailableJobs", headers={"x-api-key": "qLBrEwIv690nAbMfVHB965WC3KfoC1VpvkBjDUiBfVOG5mTzlUlwkckKLerAUxxv"})
 n = {}
