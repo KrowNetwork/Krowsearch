@@ -32,10 +32,11 @@ while True:
     except:
         pass 
     
-    id = id[0]
+    # id = id[0]
     # print (i)
     
     c = 0
+    # print (n)
     for i in id.split():
         # x[str(c)] = n[i]
         z = {}
