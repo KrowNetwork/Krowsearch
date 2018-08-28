@@ -21,6 +21,7 @@ var KEYS = {
   "dgf463d4-4fg5-55la-3z0f-7c78ft9s9z64": "tucker"
 }                                    
 
+
 var current_page = 1
 var full_res = ""
 
@@ -39,6 +40,13 @@ if (cluster.isMaster) {
     } else {
       num_cpus = os.cpus().length
     }
+
+    var schedule = require('node-schedule');
+
+    var j = schedule.scheduleJob('59 11 * * *', function(){
+      krow.reset()
+    });
+
   }
   // Fork workers.
   for (let i = 0; i < num_cpus; i++) {
