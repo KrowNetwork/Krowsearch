@@ -1,9 +1,9 @@
 import requests
 import json
-from Krow.applicant import Applicant
-from Krow.employer import Employer
-from Krow.job import Job
-from Krow.errors import JSONError, ObjectNotFoundError
+from applicant import Applicant
+# from employer import Employer
+# from job import Job
+# from errors import JSONError, ObjectNotFoundError
 
 
 class Chain(object):

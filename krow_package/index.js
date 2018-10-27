@@ -36,20 +36,8 @@ exports.search = async function(query, location, sort) {
           resolve(result)
         });
     })
-    if (sort == "relevance" || sort === undefined) {
-      var date = new Date();
-      if (date.getMinutes() == 30) {
-        python.stdin.write("\"" + query +  "\"" + " \"" + location + "\" " + "\"relevance\"" + "\"reset\"" + os.EOL);
-      } else {
-        python.stdin.write("\"" + query +  "\"" + " \"" + location + "\" " + "\"relevance\"" + os.EOL);
-      }
-      console.log("\"" + query +  "\"" + " \"" + location + "\" " + "\"relevance\"" + os.EOL)
-      python.stdout.write('\033c');
-    }
-    else {
-      python.stdin.write("\"" + query +  "\"" + " \"" + location + "\" " + "\"" + sort + "\"" + os.EOL);
-      python.stdout.write('\033c');
-    }
+    
+        python.stdin.write(query + os.EOL);
     
   })
 
@@ -58,28 +46,44 @@ exports.search = async function(query, location, sort) {
 
 
 function process_ID(jobID) {
-
   return new Promise(function (resolve, reject){
-    python2.stdout.on('data', async (chunk) =>{
-      ret = {}
-      // console.log(chunk)
-      chunk = chunk.toString().split("~+/=")
-      for (var i = 0; i < 10; i++){
-        ret[i.toString()] = chunk[i]
+    arr = []
+    jobID = jobID.toString().split('|').forEach(element => {
+      arr.push(element.split(", "))
+    });
+    var obj = {}
+    var c = 0
+    arr.forEach(element => {
+      obj[c] = {
+        "name": element[0],
+        "id": element[1]
       }
-      resolve(ret)
+      c += 1
     })
-    python2.stderr.on("data", async (chunk) => {
-      reject(chunk.toString())
-    })
-    if (new Date().getMinutes() == 30) {
-      python2.stdin.write(jobID + os.EOL);
-    } else {
-      python2.stdin.write(jobID + os.EOL);
-    }
-    python2.stdout.write('\033c');
-
+    resolve(obj)
   })
+  
+  // return new Promise(function (resolve, reject){
+  //   python2.stdout.on('data', async (chunk) =>{
+  //     ret = {}
+  //     // console.log(chunk)
+  //     chunk = chunk.toString().split("~+/=")
+  //     for (var i = 0; i < 10; i++){
+  //       ret[i.toString()] = chunk[i]
+  //     }
+  //     resolve(ret)
+  //   })
+  //   python2.stderr.on("data", async (chunk) => {
+  //     reject(chunk.toString())
+  //   })
+  //   if (new Date().getMinutes() == 30) {
+  //     python2.stdin.write(jobID + os.EOL);
+  //   } else {
+  //     python2.stdin.write(jobID + os.EOL);
+  //   }
+  //   python2.stdout.write('\033c');
+
+  // })
 
 }
 
