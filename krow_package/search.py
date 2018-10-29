@@ -27,7 +27,7 @@ def search(name):
             
     # for i in res:
         # print (i)
-
+    res = [list(x) for x in set(tuple(x) for x in res)]
     res.sort(key=lambda x: x[2])
     res = res[::-1]
     s = ""
