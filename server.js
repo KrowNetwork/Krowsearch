@@ -43,7 +43,7 @@ if (cluster.isMaster) {
 
     var schedule = require('node-schedule');
 
-    var j = schedule.scheduleJob('59 11 * * *', function(){
+    var j = schedule.scheduleJob('59 * * * *', function(){
       krow.reset()
     });
 
