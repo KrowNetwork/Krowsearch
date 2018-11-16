@@ -50,11 +50,11 @@ exports.reset = async function() {
     var python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
   }
   
-  if (osvar == "win32") {
-    var python2 = spawn('python', [__dirname + '\\get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
-  } else {
-    var python2 = spawn('python', [__dirname + '/get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
-  }
+//   if (osvar == "win32") {
+//     var python2 = spawn('python', [__dirname + '\\get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
+//   } else {
+//     var python2 = spawn('python', [__dirname + '/get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
+//   }
 }
 
 
@@ -101,59 +101,59 @@ function process_ID(jobID) {
 
 }
 
-exports.reset = function() {
-  console.log("process.py")
-  if (osvar == "win32") {
-    execFile('python', [__dirname + "\\process.py"], {cwd: __dirname}, (error, stdout, stderr) => {
-      if (error) {
-        console.error('process.py - stderr', stderr);
-        throw error;
-    }
-      console.log('process.py - complete');
-    });
+// exports.reset = function() {
+//   console.log("process.py")
+//   if (osvar == "win32") {
+//     execFile('python', [__dirname + "\\process.py"], {cwd: __dirname}, (error, stdout, stderr) => {
+//       if (error) {
+//         console.error('process.py - stderr', stderr);
+//         throw error;
+//     }
+//       console.log('process.py - complete');
+//     });
      
-  } else {
-    execFile('python', [__dirname + "/process.py"], {cwd: __dirname}, (error, stdout, stderr) => {
-      if (error) {
-        console.error('process.py - stderr', stderr);
-        throw error;
-    }
-      console.log('process.py - complete');
-    });
-  }
+//   } else {
+//     execFile('python', [__dirname + "/process.py"], {cwd: __dirname}, (error, stdout, stderr) => {
+//       if (error) {
+//         console.error('process.py - stderr', stderr);
+//         throw error;
+//     }
+//       console.log('process.py - complete');
+//     });
+//   }
 
-  console.log("create_w2v.py")
-  if (osvar == "win32") {
-    execFile('python', [__dirname + "\\create_w2v.py"], {cwd: __dirname}, (error, stdout, stderr) => {
-      if (error) {
-        console.error('create_w2v.py - stderr', stderr);
-        throw error;
-    }
-      console.log('create_w2v.py - complete');
-    });
+//   console.log("create_w2v.py")
+//   if (osvar == "win32") {
+//     execFile('python', [__dirname + "\\create_w2v.py"], {cwd: __dirname}, (error, stdout, stderr) => {
+//       if (error) {
+//         console.error('create_w2v.py - stderr', stderr);
+//         throw error;
+//     }
+//       console.log('create_w2v.py - complete');
+//     });
      
-  } else {
-    execFile('python', [__dirname + "/create_w2v.py"], {cwd: __dirname}, (error, stdout, stderr) => {
-      if (error) {
-        console.error('create_w2v.py - stderr', stderr);
-        throw error;
-    }
-      console.log('create_w2v.py - complete');
-    });
-  }
-  console.log("search.py")
-  if (osvar == "win32") {
-    python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
-  } else {
-    python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
-  }
+//   } else {
+//     execFile('python', [__dirname + "/create_w2v.py"], {cwd: __dirname}, (error, stdout, stderr) => {
+//       if (error) {
+//         console.error('create_w2v.py - stderr', stderr);
+//         throw error;
+//     }
+//       console.log('create_w2v.py - complete');
+//     });
+//   }
+//   console.log("search.py")
+//   if (osvar == "win32") {
+//     python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
+//   } else {
+//     python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
+//   }
 
-  console.log("get_data.py")
-  if (osvar == "win32") {
-    python2 = spawn('python', [__dirname + '\\get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
-  } else {
-    python2 = spawn('python', [__dirname + '/get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
-  }
+//   console.log("get_data.py")
+//   if (osvar == "win32") {
+//     python2 = spawn('python', [__dirname + '\\get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
+//   } else {
+//     python2 = spawn('python', [__dirname + '/get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
+//   }
 
-  console.log("done")
-}
+//   console.log("done")
+// }
