@@ -33,6 +33,7 @@ exports.search = async function(query, location, sort) {
 
       await process_ID(results)
         .then(function (result){
+          console.log(result)
           resolve(result)
         });
     })
@@ -67,6 +68,7 @@ function process_ID(jobID) {
     });
     var obj = {}
     var c = 0
+    console.log(arr)
     arr.forEach(element => {
       obj[c] = {
         "name": element[0],
@@ -74,6 +76,7 @@ function process_ID(jobID) {
       }
       c += 1
     })
+    console.log(obj)
     resolve(obj)
   })
   
