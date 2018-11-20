@@ -1,17 +1,23 @@
 import requests
 import json
 from difflib import SequenceMatcher
+import datetime
+
+data = {}
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
+
 
 headers = {'x-api-key': 'qLBrEwIv690nAbMfVHB965WC3KfoC1VpvkBjDUiBfVOG5mTzlUlwkckKLerAUxxv'}
 r = requests.get("http://18.220.46.51:3000/api/queries/GetUsers", headers=headers)
 data = {}
 for i in r.json():
     data[ i['applicantID']] = i["firstName"] + " " + i["lastName"]
+
     # print (i['firstName'] + " " + i["lastName"])
     # print (i['applicantID'])
+
 
 def search(name):
     name = name.split()
@@ -35,6 +41,8 @@ def search(name):
         i = str(i).replace("[", "").replace("]", "|").replace("'", "")
         s += i
     print (s[:-1])
+
+# get_data()
 while True:
     text = input()
     search(text)

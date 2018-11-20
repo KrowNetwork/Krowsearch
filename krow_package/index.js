@@ -33,7 +33,6 @@ exports.search = async function(query, location, sort) {
 
       await process_ID(results)
         .then(function (result){
-          console.log(result)
           resolve(result)
         });
     })
@@ -44,12 +43,14 @@ exports.search = async function(query, location, sort) {
 
 }
 
-exports.reset = async function() {
+exports.reset = function() {
+  python.kill()
   if (osvar == "win32") {
-    var python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
+    python = spawn('python', [__dirname + "\\search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
   } else {
-    var python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
+    python = spawn('python', [__dirname + "/search.py"], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
   }
+  console.log("reset successful")
   
 //   if (osvar == "win32") {
 //     var python2 = spawn('python', [__dirname + '\\get_data.py'], {detached: true, cwd: __dirname, maxBuffer: 1024 * 200});
@@ -68,7 +69,6 @@ function process_ID(jobID) {
     });
     var obj = {}
     var c = 0
-    console.log(arr)
     arr.forEach(element => {
       obj[c] = {
         "name": element[0],
@@ -76,7 +76,6 @@ function process_ID(jobID) {
       }
       c += 1
     })
-    console.log(obj)
     resolve(obj)
   })
   

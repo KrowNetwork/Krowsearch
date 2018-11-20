@@ -41,11 +41,7 @@ if (cluster.isMaster) {
       num_cpus = os.cpus().length
     }
 
-    var schedule = require('node-schedule');
 
-    var j = schedule.scheduleJob('59 * * * *', function(){
-      krow.reset()
-    });
 
   }
   // Fork workers.
@@ -54,6 +50,12 @@ if (cluster.isMaster) {
   }
 
 } else {
+
+  var schedule = require('node-schedule');
+
+  var j = schedule.scheduleJob('11 * * * *', function(){
+    krow.reset()
+  });
 
   var express = require('express'),
     app = express(),
@@ -93,7 +95,7 @@ if (cluster.isMaster) {
       await krow.search(query, location, sort)
 
       .then(function (result){
-        console.log(result)
+        // console.log(result)
         res.send(result)
         res.end()
         return next()
